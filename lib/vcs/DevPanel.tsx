@@ -3,8 +3,14 @@
 import { useEffect, useState } from "react";
 
 /**
- * Dev-only modal that lists every visible cid on the current page.
- * Toggle with Ctrl+. (or Cmd+. on macOS). Highlights elements on hover.
+ * Visual Context inspector modal — always available in production.
+ *
+ * Toggle: Alt+I (works on macOS + Windows + Linux). Lists every visible
+ * cid on the current page, highlights elements on hover, click to copy.
+ *
+ * This is intentionally on in production — operator uses it as a
+ * point-and-build-context tool when feeding tasks to AI agents. cids
+ * are not sensitive (they describe the visible UI surface).
  */
 export function DevPanel() {
   const [open, setOpen] = useState(false);
@@ -12,14 +18,18 @@ export function DevPanel() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === ".") {
+      // Alt+I on Win/Linux, Option+I on macOS — both flag e.altKey
+      if (e.altKey && (e.key === "i" || e.key === "I" || e.code === "KeyI")) {
         e.preventDefault();
         setOpen((v) => !v);
+      }
+      if (e.key === "Escape" && open) {
+        setOpen(false);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -34,7 +44,6 @@ export function DevPanel() {
     };
   }, [open]);
 
-  if (process.env.NODE_ENV === "production") return null;
   if (!open) return null;
 
   return (
@@ -51,7 +60,7 @@ export function DevPanel() {
           onClick={() => setOpen(false)}
           className="text-xs uppercase tracking-widest opacity-60 hover:opacity-100"
         >
-          close · ⌃.
+          close · alt+i
         </button>
       </header>
       <ul className="px-2 py-2 text-xs font-mono">
@@ -71,7 +80,7 @@ export function DevPanel() {
         ))}
       </ul>
       <footer className="border-t border-black/10 px-4 py-2 text-[10px] uppercase tracking-widest text-black/50">
-        Hover to highlight · click to copy
+        hover to highlight · click to copy · alt+i to toggle · esc to close
       </footer>
     </div>
   );
