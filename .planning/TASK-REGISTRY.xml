@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<task-registry project="7greens" schema="1">
+  <phase id="00">
+    <!-- <task id="00-01" type="..." status="planned"><goal>...</goal></task> -->
+  </phase>
+
+  <phase id="01">
+  </phase>
+
+  <phase id="02">
+  </phase>
+
+  <phase id="03">
+  </phase>
+
+  <phase id="04">
+  </phase>
+
+  <phase id="05">
+  </phase>
+
+  <phase id="06">
+  </phase>
+</task-registry>
