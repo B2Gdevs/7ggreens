@@ -13,7 +13,7 @@
   "dependencies": {
     "@portfolio/ui": "npm:gad-ui@^0.1.0",
     "clsx": "^2.1.1",
-    "gad-visual-context": "^0.1.1",
+    "gad-visual-context": "^0.1.2",
     "lucide-react": "^0.468.0",
     "next": "^16.2.4",
     "react": "19.0.0",
