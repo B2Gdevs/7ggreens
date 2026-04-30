@@ -175,7 +175,14 @@ function highlight(cidValue: string, on: boolean) {
   if (on) {
     el.style.outline = "2px solid var(--color-tomato)";
     el.style.outlineOffset = "4px";
-    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    // Only scroll if the element is fully off-screen — never when partially
+    // visible (was causing the page to lurch around on every hover).
+    const rect = el.getBoundingClientRect();
+    const fullyOff =
+      rect.bottom < 0 || rect.top > window.innerHeight;
+    if (fullyOff) {
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
   } else {
     el.style.outline = "";
     el.style.outlineOffset = "";
