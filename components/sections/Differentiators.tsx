@@ -1,6 +1,6 @@
 import { Leaf, Snowflake, Package, Sprout } from "lucide-react";
+import { Identified } from "gad-visual-context";
 import { DIFFERENTIATORS } from "@/lib/site/constants";
-import { cid } from "@/lib/vcs/cid";
 
 const ICONS = {
   Leaf,
@@ -11,8 +11,10 @@ const ICONS = {
 
 export function Differentiators() {
   return (
-    <section
-      data-cid={cid("home.diff")}
+    <Identified
+      as="differentiators"
+      cid="home.diff"
+      tag="section"
       className="bg-[var(--color-cream-soft)] py-[var(--section-py)]"
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
@@ -32,7 +34,7 @@ export function Differentiators() {
             return (
               <article
                 key={d.title}
-                data-cid={cid(`home.diff.${d.title.toLowerCase().replace(/\s+/g, "-")}`)}
+                data-cid={`home.diff.${d.title.toLowerCase().replace(/\s+/g, "-")}`}
                 className="group relative rounded-3xl border border-[var(--color-border)] bg-[var(--color-cream)]/60 p-8 backdrop-blur-sm transition-all hover:border-[var(--color-sage)]/40 hover:bg-[var(--color-cream)]"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-sage-deep)] text-[var(--color-cream)] transition-transform group-hover:scale-105 group-hover:rotate-[-4deg]">
@@ -49,6 +51,6 @@ export function Differentiators() {
           })}
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }

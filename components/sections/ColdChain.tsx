@@ -1,6 +1,6 @@
-import { COLD_CHAIN } from "@/lib/site/constants";
-import { cid } from "@/lib/vcs/cid";
+import { Identified } from "gad-visual-context";
 import { Snowflake, Truck, Box, Clock } from "lucide-react";
+import { COLD_CHAIN } from "@/lib/site/constants";
 
 const STEPS = [
   { label: "Pick", body: "Harvested only after pre-order to reduce waste.", icon: Box },
@@ -11,9 +11,10 @@ const STEPS = [
 
 export function ColdChain() {
   return (
-    <section
-      id="cold-chain"
-      data-cid={cid("home.cold-chain")}
+    <Identified
+      as="cold-chain"
+      cid="home.cold-chain"
+      tag="section"
       className="grain-overlay relative overflow-hidden bg-[var(--color-soil)] text-[var(--color-cream)]"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-30">
@@ -43,7 +44,7 @@ export function ColdChain() {
             </p>
           </div>
 
-          <div className="md:col-span-7" data-cid={cid("home.cold-chain.steps")}>
+          <div className="md:col-span-7" data-cid="home.cold-chain.steps">
             <div className="grid gap-6 sm:grid-cols-2 reveal-stagger">
               {STEPS.map((s, i) => {
                 const Icon = s.icon;
@@ -71,6 +72,6 @@ export function ColdChain() {
           </div>
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }

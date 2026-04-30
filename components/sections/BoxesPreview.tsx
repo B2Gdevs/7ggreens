@@ -1,16 +1,17 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Identified } from "gad-visual-context";
 import { fetchCatalog } from "@/lib/square/client";
-import { cid } from "@/lib/vcs/cid";
 
 export async function BoxesPreview() {
   const catalog = await fetchCatalog();
   const boxes = [catalog.starter, catalog.family];
 
   return (
-    <section
-      id="boxes"
-      data-cid={cid("home.boxes")}
+    <Identified
+      as="boxes-preview"
+      cid="home.boxes"
+      tag="section"
       className="py-[var(--section-py)]"
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
@@ -37,7 +38,7 @@ export async function BoxesPreview() {
           {boxes.map((box, i) => (
             <article
               key={box.id}
-              data-cid={cid(`home.boxes.${i === 0 ? "starter" : "family"}`)}
+              data-cid={`home.boxes.${i === 0 ? "starter" : "family"}`}
               className="group relative overflow-hidden rounded-[28px] border border-[var(--color-border)] bg-[var(--color-cream)] p-8 transition-all hover:shadow-[0_30px_70px_rgba(60,55,40,0.12)]"
             >
               <div className="flex items-baseline justify-between">
@@ -86,6 +87,6 @@ export async function BoxesPreview() {
           ))}
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }

@@ -1,11 +1,12 @@
+import { Identified } from "gad-visual-context";
 import { FOUNDER_NARRATIVE } from "@/lib/site/constants";
-import { cid } from "@/lib/vcs/cid";
 
 export function FounderStory() {
   return (
-    <section
-      id="story"
-      data-cid={cid("home.story")}
+    <Identified
+      as="founder-story"
+      cid="home.story"
+      tag="section"
       className="py-[var(--section-py)]"
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
@@ -69,6 +70,6 @@ export function FounderStory() {
           </div>
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }
