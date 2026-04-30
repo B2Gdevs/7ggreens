@@ -1,0 +1,23 @@
+{
+  "id": "02-01",
+  "phase": "02",
+  "status": "planned",
+  "goal": "Rebrand display name '7Greens' -> '7G Greens' (with space) across all UI / copy / metadata. Touches: lib/site/constants.ts (SITE.brand + tagline references), components/chrome/SiteHeader.tsx (logo composition currently splits '7'+'Greens' two-tone — extend to '7G'+'Greens'), components/chrome/SiteFooter.tsx, components/sections/* (any inline mentions), app/layout.tsx (metadata.title default + openGraph.title), app/opengraph-image.tsx (text rendering), app/icon.tsx (still just '7' OK or update to '7G'?), README.md, .planning/PROJECT.md (legalShort + brand strings). DOES NOT change: package.json name (workspace id stays '7greens'), Vercel project slug, GitHub repo (B2Gdevs/7ggreens already encodes 7g-greens), projectid '7greens' in gad config. Pure display-text refactor.",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-04-30T21:03:30.903Z",
+  "updated_at": "2026-04-30T21:03:30.903Z"
+}
