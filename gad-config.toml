@@ -1,0 +1,29 @@
+# 7Greens — canonical GAD config for this submodule.
+# Mirrored to .planning/config.json for compatibility.
+
+[planning]
+mode = "yolo"
+granularity = "standard"
+parallelization = true
+commit_docs = true
+model_profile = "balanced"
+
+[planning.workflow]
+research = true
+plan_check = true
+verifier = true
+nyquist_validation = true
+auto_advance = true
+
+[project]
+id = "7greens"
+name = "7Greens (UPAEC)"
+remote = "https://github.com/B2Gdevs/7ggreens.git"
+parent_monorepo = "https://github.com/B2Gdevs/get-anything-done-monorepo.git"
+parent_planning_root = "sites/7greens"
+
+[[planning.roots]]
+id = "7greens"
+path = "."
+planningDir = ".planning"
+discover = false

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roadmap project="7greens" schema="1">
+  <milestone id="v1" status="active">
+    <title>Initial milestone</title>
+    <phase id="00" status="planned">
+      <title>Bootstrap</title>
+      <goal>Define scope [CANCELLED 2026-04-30: Bootstrap was completed via parent monorepo task global/65-01 (submodule add + workspace.yaml + research extraction)]</goal>
+      <status>cancelled</status>
+    </phase>
+  </milestone>
+
+  <phase id="01">
+    <title>Foundation</title>
+    <goal>Stand up the Next.js + shadcn + Tailwind + VCS scaffold so all later phases ship UI into a working site.</goal>
+    <status>active</status>
+    <depends></depends>
+  </phase>
+
+  <phase id="02">
+    <title>Home (Brand)</title>
+    <goal>Story-led home page that mirrors the 2sranch.com aesthetic and makes UPAEC's differentiators legible in the first scroll.</goal>
+    <status>planned</status>
+    <depends>01</depends>
+  </phase>
+
+  <phase id="03">
+    <title>/boxes Catalog</title>
+    <goal>Render the full box catalog with the 27 product photos and the Order Extra add-on section.</goal>
+    <status>planned</status>
+    <depends>01</depends>
+  </phase>
+
+  <phase id="04">
+    <title>Order Flow</title>
+    <goal>Wire up Square Customer + Order + Payments end-to-end with confirmation and webhook reconciliation.</goal>
+    <status>planned</status>
+    <depends>03</depends>
+  </phase>
+
+  <phase id="05">
+    <title>Lead Capture / Contact</title>
+    <goal>Capture pre-launch leads and ongoing inquiries via Square Customer creation; protect forms from bots.</goal>
+    <status>planned</status>
+    <depends>01</depends>
+  </phase>
+
+  <phase id="06">
+    <title>Launch</title>
+    <goal>Production deploy with custom domain, env management, analytics, and a real sandbox-to-prod smoke before flipping live.</goal>
+    <status>planned</status>
+    <depends>02,03,04,05</depends>
+  </phase>
+
+</roadmap>

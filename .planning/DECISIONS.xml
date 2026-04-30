@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decisions project="7greens" schema="1">
+  <!-- <decision id="7greens-001"><title>...</title><summary>...</summary><impact>...</impact></decision> -->
+
+  <decision id="d-01">
+    <title>Primary CTA is Order-a-box</title>
+    <summary>Operator chose live commerce in v1 — Square Orders + Payments scope is in-flight, not just lead-capture. Affects Phase 4 size + Square SDK surface area.</summary>
+  </decision>
+
+  <decision id="d-02">
+    <title>Use existing photos + flag lifestyle gap</title>
+    <summary>27 SKU photos exist; documentary lifestyle imagery (2sranch.com style) does not. Don't block launch on photo shoot — ship with placeholders for hero/story slots, source/commission later.</summary>
+  </decision>
+
+  <decision id="d-03">
+    <title>Submodule + monorepo workspace-linked</title>
+    <summary>Operator wants own repo for 7greens AND monorepo package consumption. Submodule pattern serves both. Future-proof for when @portfolio/visual-context publishes to npm and 7greens can detach.</summary>
+  </decision>
+
+</decisions>
