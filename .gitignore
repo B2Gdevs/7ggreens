@@ -1,0 +1,19 @@
+# gad CLI runtime traces (ephemeral local state)
+.planning/.trace-events.jsonl
+.planning/.trace-seq
+.planning/.gad-log/
+
+# node / build
+node_modules/
+dist/
+.next/
+out/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
