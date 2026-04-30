@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Identified } from "gad-visual-context";
 import { SITE } from "@/lib/site/constants";
-import { cid } from "@/lib/vcs/cid";
 
 export function Hero() {
   return (
-    <section
-      data-cid={cid("home.hero")}
+    <Identified
+      as="hero"
+      cid="home.hero"
+      tag="section"
       className="grain-overlay relative overflow-hidden"
     >
       {/* Decorative asymmetric backdrop */}
@@ -27,7 +29,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto grid max-w-[var(--content-max)] gap-12 px-[var(--section-px)] py-[var(--section-py)] md:grid-cols-12 md:gap-8 md:py-32">
-        <div className="md:col-span-7 lg:col-span-7" data-cid={cid("home.hero.headline")}>
+        <div className="md:col-span-7 lg:col-span-7" data-cid="home.hero.headline">
           <p className="eyebrow reveal">Field to family - Tyler, Texas</p>
 
           <h1
@@ -60,11 +62,11 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="md:col-span-5 lg:col-span-5 reveal" data-cid={cid("home.hero.visual")}>
+        <div className="md:col-span-5 lg:col-span-5 reveal" data-cid="home.hero.visual">
           <HeroPhotoStack />
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }
 

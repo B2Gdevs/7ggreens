@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { cid } from "@/lib/vcs/cid";
+import { Identified } from "gad-visual-context";
 
 export function GetOnTheList() {
   const [name, setName] = useState("");
@@ -37,9 +37,10 @@ export function GetOnTheList() {
   }
 
   return (
-    <section
-      id="contact"
-      data-cid={cid("home.lead-capture")}
+    <Identified
+      as="lead-capture"
+      cid="home.lead-capture"
+      tag="section"
       className="py-[var(--section-py)]"
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
@@ -60,7 +61,7 @@ export function GetOnTheList() {
 
             <form
               onSubmit={onSubmit}
-              data-cid={cid("home.lead-capture.form")}
+              data-cid="home.lead-capture.form"
               className="md:col-span-7"
               noValidate
             >
@@ -144,7 +145,7 @@ export function GetOnTheList() {
           </div>
         </div>
       </div>
-    </section>
+    </Identified>
   );
 }
 

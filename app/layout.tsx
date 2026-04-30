@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
-import { DevPanel } from "@/lib/vcs/DevPanel";
+import { SiteVisualContextProvider } from "@/components/providers/SiteVisualContextProvider";
+import { SiteDevIdProvider } from "@/components/providers/SiteDevIdProvider";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -54,12 +55,15 @@ export default function RootLayout({
     <html lang="en" className={`${fraunces.variable} ${jakarta.variable}`}>
       <head />
       <body className="min-h-screen flex flex-col">
-        <SiteHeader />
-        <main className="flex-1" data-cid="site.main">
-          {children}
-        </main>
-        <SiteFooter />
-        <DevPanel />
+        <SiteVisualContextProvider>
+          <SiteDevIdProvider>
+            <SiteHeader />
+            <main className="flex-1" data-cid="site.main">
+              {children}
+            </main>
+            <SiteFooter />
+          </SiteDevIdProvider>
+        </SiteVisualContextProvider>
       </body>
     </html>
   );
