@@ -23,6 +23,15 @@
 
 **Requirements:** FOUND-01, FOUND-02, FOUND-03, FOUND-04, FOUND-05
 
+**Plans:** 5 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Bootstrap: package.json + configs + shadcn init + app skeleton (FOUND-01)
+- [ ] 01-02-PLAN.md — Theme: globals.css with UPAEC palette + @theme inline tokens (FOUND-02)
+- [ ] 01-03-PLAN.md — Chrome: SiteHeader + SiteFooter + lib/constants/site.ts (FOUND-03)
+- [ ] 01-04-PLAN.md — VCS: SiteVisualContextProvider + wire layout.tsx (FOUND-04)
+- [ ] 01-05-PLAN.md — Mobile: breakpoint verification checkpoint (FOUND-05)
+
 **Success criteria:**
 1. `pnpm --filter 7greens dev` boots a Next.js dev server with no errors
 2. `pnpm --filter 7greens build` succeeds with no errors
@@ -125,3 +134,4 @@
 
 ---
 *Roadmap created: 2026-04-30*
+*Updated: 2026-04-30 — Phase 1 plans added*
