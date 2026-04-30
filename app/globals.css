@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────
+   7GREENS · UPAEC — Heritage Modern theme
+   Earthy / agricultural craftsmanship · typographically refined
+   Cream base · charcoal text · sage primary · golden accents
+   ───────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* Color tokens — deep, warm, intentional */
+  --color-cream: #FAF6EE;
+  --color-cream-soft: #F4EFE3;
+  --color-cream-muted: #E8DFCB;
+
+  --color-charcoal: #1C1A14;
+  --color-charcoal-soft: #2D2820;
+  --color-charcoal-muted: #5A5347;
+
+  --color-sage: #5C7A3D;
+  --color-sage-deep: #3F5828;
+  --color-sage-text: #4A6230;
+
+  --color-tan: #C8A35C;
+  --color-tan-deep: #A6843E;
+  --color-tan-text: #8B6914;
+
+  --color-tomato: #A23E2A;
+  --color-tomato-deep: #7A2D1E;
+
+  --color-soil: #3D2F22;
+  --color-soil-light: #5C4632;
+
+  /* Semantic mappings */
+  --color-background: var(--color-cream);
+  --color-foreground: var(--color-charcoal);
+  --color-muted: var(--color-cream-muted);
+  --color-muted-foreground: var(--color-charcoal-muted);
+  --color-primary: var(--color-sage-deep);
+  --color-primary-foreground: var(--color-cream);
+  --color-accent: var(--color-tan-deep);
+  --color-border: rgba(28, 26, 20, 0.08);
+  --color-border-strong: rgba(28, 26, 20, 0.16);
+
+  /* Typography — Fraunces (display) + Plus Jakarta Sans (body) */
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-jakarta);
+
+  /* Display sizes — generous for editorial feel */
+  --text-display-xl: clamp(3.5rem, 8vw, 7.5rem);
+  --text-display-lg: clamp(2.75rem, 6vw, 5rem);
+  --text-display-md: clamp(2.25rem, 4.5vw, 3.75rem);
+  --text-display-sm: clamp(1.75rem, 3vw, 2.5rem);
+
+  /* Spatial rhythm */
+  --section-py: clamp(4rem, 10vw, 8rem);
+  --section-py-tight: clamp(3rem, 6vw, 5rem);
+  --section-px: clamp(1.25rem, 5vw, 4rem);
+  --content-max: 1280px;
+}
+
+/* Base */
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(200, 163, 92, 0.06), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(92, 122, 61, 0.05), transparent 40%);
+}
+
+/* Display headings inherit Fraunces with optical-size variation */
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+  letter-spacing: -0.02em;
+}
+
+.font-display-soft {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-style: italic;
+  letter-spacing: -0.015em;
+}
+
+/* Grain texture overlay — applied selectively */
+.grain-overlay {
+  position: relative;
+  isolation: isolate;
+}
+
+.grain-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.11  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0.6 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+}
+
+/* Scroll-trigger fade-up */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  .reveal-stagger > * {
+    animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+
+  .reveal-stagger > *:nth-child(2) { animation-delay: 80ms; }
+  .reveal-stagger > *:nth-child(3) { animation-delay: 160ms; }
+  .reveal-stagger > *:nth-child(4) { animation-delay: 240ms; }
+  .reveal-stagger > *:nth-child(5) { animation-delay: 320ms; }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons with restrained craft */
+.btn-primary {
+  background: var(--color-sage-deep);
+  color: var(--color-cream);
+  padding: 0.875rem 1.875rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: 0.9375rem;
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), background 200ms;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--color-sage);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-charcoal);
+  padding: 0.875rem 1.875rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: 0.9375rem;
+  border: 1px solid var(--color-border-strong);
+  transition: background 200ms, border-color 200ms;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: var(--color-cream-soft);
+  border-color: var(--color-charcoal-muted);
+}
+
+/* Decorative section divider — thin sage line */
+.divider-sage {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-sage), transparent);
+  opacity: 0.4;
+  border: 0;
+}
+
+/* Eyebrow text */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-sage-text);
+}
+
+/* VCS dev marker (only visible in dev mode via [data-vcs="on"] on root) */
+[data-vcs="on"] [data-cid] {
+  outline: 1px dashed rgba(92, 122, 61, 0.35);
+  outline-offset: 2px;
+}
+
+[data-vcs="on"] [data-cid]:hover {
+  outline-color: var(--color-tomato);
+  outline-style: solid;
+}
