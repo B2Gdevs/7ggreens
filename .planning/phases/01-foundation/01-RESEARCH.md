@@ -58,7 +58,7 @@
 
 ## Summary
 
-The sibling `apps/platform` app is already running the exact target stack — Next.js 16 + React 19 + Tailwind v4 + `@portfolio/visual-context` — and its source is readable in this monorepo. All load-bearing patterns are verified from that code, not assumed from training data.
+The sibling `apps/platform` app is already running the exact target stack — Next.js 16 + React 19 + Tailwind v4 + `gad-visual-context` — and its source is readable in this monorepo. All load-bearing patterns are verified from that code, not assumed from training data.
 
 Tailwind v4 is confirmed production-ready for this stack. shadcn CLI (`npx shadcn@latest init`) now defaults to Tailwind v4 with CSS-only config (no `tailwind.config.ts`). Theme tokens live in `globals.css` via `@theme inline`. The apps/platform globals.css is the canonical pattern to mirror for token shape, adapted to the UPAEC cream/charcoal/sage palette.
 
@@ -85,7 +85,7 @@ The VCS provider chain is three nested providers: `VisualContextProvider` (route
 ### Supporting
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
-| @portfolio/visual-context | workspace:* | VCS provider + SiteSection + DevPanel | All pages/layouts |
+| gad-visual-context | workspace:* | VCS provider + SiteSection + DevPanel | All pages/layouts |
 | @portfolio/ui | workspace:* | Shared primitive components | If available — platform uses it |
 | shadcn/ui (via CLI) | 4.6.0 CLI | Installed component primitives | shadcn installs to components/ui/ |
 | lucide-react | ^1.8.0 | Icon set | Header icons, feature icons |
@@ -155,7 +155,7 @@ import {
   VisualContextProvider,
   DevIdProvider,
   type VCSRouterAdapterValue,
-} from "@portfolio/visual-context";
+} from "gad-visual-context";
 
 export function SiteVisualContextProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "/";
@@ -248,7 +248,7 @@ Every meaningful section wraps in `<SiteSection cid="...">`. The cid must be det
 
 ```tsx
 // Example page section
-import { SiteSection } from "@portfolio/visual-context";
+import { SiteSection } from "gad-visual-context";
 
 <SiteSection cid="home-hero" id="hero">
   {/* content */}
@@ -282,10 +282,10 @@ import { SiteSection } from "@portfolio/visual-context";
 ## Common Pitfalls
 
 ### Pitfall 1: VCS package requires pre-built dist
-**What goes wrong:** `@portfolio/visual-context` package.json points to `./dist/index.js`. If dist is stale or missing, imports resolve to nothing and TypeScript errors cascade.
+**What goes wrong:** `gad-visual-context` package.json points to `./dist/index.js`. If dist is stale or missing, imports resolve to nothing and TypeScript errors cascade.
 **Why it happens:** Package is `"type": "module"` with a `build: tsc` script. The dist isn't auto-built when workspace is installed.
-**How to avoid:** Wave 0 task must run `pnpm --filter @portfolio/visual-context build` before attempting to `pnpm --filter 7greens dev`. Or document the dev startup prerequisite in README.
-**Warning signs:** TS error "Module '@portfolio/visual-context' has no exported member X" or runtime "Cannot find module ./dist/index.js".
+**How to avoid:** Wave 0 task must run `pnpm --filter gad-visual-context build` before attempting to `pnpm --filter 7greens dev`. Or document the dev startup prerequisite in README.
+**Warning signs:** TS error "Module 'gad-visual-context' has no exported member X" or runtime "Cannot find module ./dist/index.js".
 
 [VERIFIED: packages/visual-context/package.json — main: ./dist/index.js; dist/ exists and is pre-built at time of research]
 
@@ -314,12 +314,12 @@ import { SiteSection } from "@portfolio/visual-context";
 [VERIFIED: apps/platform/next.config.mjs — `experimental.externalDir: true` + `outputFileTracingRoot: repoRoot`]
 
 ### Pitfall 5: `sonner` toast dependency must be in app's dep tree
-**What goes wrong:** `DevIdProvider` imports `toast` from `sonner`. If `sonner` is only a devDependency of `@portfolio/visual-context` and not in the consuming app's deps, it may bundle-split incorrectly.
+**What goes wrong:** `DevIdProvider` imports `toast` from `sonner`. If `sonner` is only a devDependency of `gad-visual-context` and not in the consuming app's deps, it may bundle-split incorrectly.
 **Why it happens:** `sonner` is in devDependencies (not dependencies) of the package.json. The dist bundles it inline at package build time, so it should resolve. But if the package is built with `bundleExternals: false`, the consuming app needs sonner in its own tree.
-**How to avoid:** The pre-built dist at `packages/visual-context/dist/` already has the code inlined (tsc build, not bundler). No action needed unless `@portfolio/visual-context` is rebuilt with different settings.
+**How to avoid:** The pre-built dist at `packages/visual-context/dist/` already has the code inlined (tsc build, not bundler). No action needed unless `gad-visual-context` is rebuilt with different settings.
 **Warning signs:** "Module not found: sonner" only after a clean dist rebuild.
 
-[ASSUMED — tsc-built dist typically inlines types but not runtime deps; needs validation if `@portfolio/visual-context` build process changes]
+[ASSUMED — tsc-built dist typically inlines types but not runtime deps; needs validation if `gad-visual-context` build process changes]
 
 ---
 
@@ -486,7 +486,7 @@ export default nextConfig;
 
 ## Workspace Wiring
 
-`@portfolio/visual-context` is a pre-built ESM package (`"type": "module"`, exports `./dist/index.js`). Next.js 16's bundler resolves it transparently when `experimental.externalDir: true` is set — **no `transpilePackages` needed.**
+`gad-visual-context` is a pre-built ESM package (`"type": "module"`, exports `./dist/index.js`). Next.js 16's bundler resolves it transparently when `experimental.externalDir: true` is set — **no `transpilePackages` needed.**
 
 [VERIFIED: apps/platform does not use `transpilePackages`; uses `externalDir: true` only. Package dist exists at `packages/visual-context/dist/`.]
 
@@ -506,7 +506,7 @@ export default nextConfig;
     "next": "^16.2.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "@portfolio/visual-context": "workspace:*",
+    "gad-visual-context": "workspace:*",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.4",
     "lucide-react": "^1.8.0"
@@ -564,7 +564,7 @@ All five success criteria are verified manually — no automated test infrastruc
 |------------|------------|-----------|---------|----------|
 | Node.js | Next.js 16 | ✓ | 24.x (per locked decision) | — |
 | pnpm | workspace manager | ✓ (monorepo uses it) | — | — |
-| @portfolio/visual-context dist | VCS import | ✓ | built in packages/visual-context/dist/ | Run `pnpm --filter @portfolio/visual-context build` |
+| gad-visual-context dist | VCS import | ✓ | built in packages/visual-context/dist/ | Run `pnpm --filter gad-visual-context build` |
 | shadcn CLI | init | ✓ (via pnpm dlx) | 4.6.0 | — |
 | Geist font | typography | needs network (Next font downloads at build) | — | system-ui fallback is safe |
 
@@ -592,7 +592,7 @@ ASVS security enforcement for Phase 01 is minimal — this phase is scaffold-onl
 |---|-------|---------|---------------|
 | A1 | Geist font available via `next/font/google` in Next.js 16 | Typography | Fallback to Outfit or system-ui; low impact |
 | A2 | Cart stub seam via `useCartCount()` hook is compatible with Phase 04's Square store | Cart Stub | Phase 04 may need different seam shape; minor rework in header |
-| A3 | `sonner` runtime is bundled into @portfolio/visual-context dist by tsc build | Pitfall 5 | If not bundled, app needs `sonner` in dependencies; easy fix |
+| A3 | `sonner` runtime is bundled into gad-visual-context dist by tsc build | Pitfall 5 | If not bundled, app needs `sonner` in dependencies; easy fix |
 | A4 | CSP headers scaffold in next.config.ts is low-risk for Phase 01 | Security Domain | Overly restrictive CSP could break shadcn radix portals; omit if blocker |
 
 ---

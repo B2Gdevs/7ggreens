@@ -14,7 +14,7 @@
 
   <decision id="d-03">
     <title>Submodule + monorepo workspace-linked</title>
-    <summary>Operator wants own repo for 7greens AND monorepo package consumption. Submodule pattern serves both. Future-proof for when @portfolio/visual-context publishes to npm and 7greens can detach.</summary>
+    <summary>Operator wants own repo for 7greens AND monorepo package consumption. Submodule pattern serves both. Future-proof for when gad-visual-context publishes to npm and 7greens can detach.</summary>
   </decision>
 
 </decisions>

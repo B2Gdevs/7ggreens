@@ -56,7 +56,7 @@ A brand + commerce landing site for **Uncle Paul's Agritourism & Educational Cor
 - **Commerce**: Square SDK (Customers + Orders + Payments) — operator choice; UPAEC already uses Square downstream
 - **VCS mandate**: Visual Context System on every visual surface (memory: "Visual Context System mandatory for all GUI"). Source: `packages/visual-context` in the parent monorepo, consumed via pnpm workspace today; npm-publish on parallel track to enable future standalone-repo split (decision below).
 - **Repo topology**: `sites/7greens/` is a submodule of `B2Gdevs/get-anything-done-monorepo`. Has its own remote `B2Gdevs/7ggreens`, ships to Vercel independently, but workspace-links to monorepo packages.
-- **No public npm publishing of GAD** (parent-monorepo decision gad-188 #1) — does not constrain @portfolio/visual-context, which has its own publish track if/when needed.
+- **No public npm publishing of GAD** (parent-monorepo decision gad-188 #1) — does not constrain gad-visual-context, which has its own publish track if/when needed.
 
 ## Key Decisions
 
