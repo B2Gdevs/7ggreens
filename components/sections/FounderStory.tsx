@@ -10,27 +10,40 @@ export function FounderStory() {
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
         <div className="grid gap-16 md:grid-cols-12 md:gap-12">
-          {/* Asymmetric portrait — abstract since no founder photo */}
           <div className="md:col-span-5 reveal">
-            <div className="relative aspect-[4/5] w-full max-w-md">
-              <div className="absolute inset-2 rotate-1 rounded-3xl bg-[var(--color-tan)]/20" />
-              <div className="absolute inset-0 -rotate-1 overflow-hidden rounded-3xl bg-gradient-to-br from-[var(--color-soil)] to-[var(--color-sage-deep)] shadow-[0_24px_60px_rgba(60,45,30,0.2)]">
-                <div
-                  aria-hidden
-                  className="absolute inset-0 opacity-30"
-                  style={{
-                    backgroundImage: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 50%)",
-                  }}
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-md">
+              <div className="absolute inset-x-6 inset-y-5 rotate-[3deg] rounded-[2rem] bg-[var(--color-tan)]/18" />
+              <div className="absolute left-2 top-10 h-[76%] w-[68%] -rotate-[5deg] overflow-hidden rounded-[2rem] shadow-[0_24px_70px_rgba(60,45,30,0.2)] ring-1 ring-black/10">
+                <img
+                  src="/photos/brand/field-to-family-01.jpeg"
+                  alt="7Greens harvest team working the field"
+                  className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 flex flex-col justify-end p-10 text-[var(--color-cream)]">
-                  <p className="eyebrow text-[var(--color-tan)]">Founded 2019</p>
-                  <p className="font-display mt-3 text-4xl leading-tight">
-                    Uncle Paul
-                  </p>
-                  <p className="mt-3 text-sm text-[var(--color-cream)]/80">
-                    Fruit, vegetables, chickens, agri-logistics — and a lifetime spent watching the land give back.
-                  </p>
-                </div>
+              </div>
+              <div className="absolute right-0 top-0 h-[52%] w-[46%] rotate-[6deg] overflow-hidden rounded-[1.75rem] shadow-[0_18px_50px_rgba(60,45,30,0.18)] ring-1 ring-black/10">
+                <img
+                  src="/photos/brand/field-to-family-02.png"
+                  alt="Fresh greens packaged for field-to-family delivery"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute bottom-6 right-8 h-[28%] w-[38%] -rotate-[7deg] overflow-hidden rounded-[1.5rem] border-[6px] border-[var(--color-cream)] shadow-[0_18px_40px_rgba(60,45,30,0.16)]">
+                <img
+                  src="/photos/produce/web-photos-18.png"
+                  alt="Close-up of fresh leafy greens"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute left-6 top-3 rounded-full bg-[var(--color-cream)] px-4 py-2 shadow-md ring-1 ring-black/10">
+                <span className="eyebrow">Founded 2019</span>
+              </div>
+              <div className="absolute bottom-0 left-10 max-w-[14rem] rounded-[1.5rem] bg-[rgba(250,246,238,0.92)] px-5 py-4 shadow-lg ring-1 ring-black/8 backdrop-blur-sm">
+                <p className="font-display text-2xl leading-tight text-[var(--color-charcoal)]">
+                  Uncle Paul
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--color-charcoal-soft)]">
+                  Fruit, vegetables, chickens, agri-logistics, and a lifetime spent watching the land give back.
+                </p>
               </div>
             </div>
           </div>
