@@ -2,7 +2,7 @@
  * 7greens local Visual Context System — minimal, package-free.
  *
  * Why local: per operator direction, 7greens does not depend on
- * @portfolio/visual-context or gad-visual-context. We roll a thin
+ * @gad/visual-context or gad-visual-context. We roll a thin
  * cid system here that satisfies the VCS mandate (deterministic IDs
  * + dev-mode inspector) without any external package dependency.
  *

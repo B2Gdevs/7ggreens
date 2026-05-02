@@ -35,7 +35,7 @@ You can also run from this directory directly with `npm install && npm run dev` 
 
 A minimal local VCS lives at `lib/vcs/`. Every section / major component carries a `data-cid` attribute. In development mode, press **`Ctrl+.`** (or **`Cmd+.`**) to open the inspector — it lists every visible cid, lets you click to copy, and highlights the element on hover.
 
-There is no dependency on `gad-visual-context` or `@portfolio/visual-context` — the kit is intentionally inline so 7greens can ship without waiting on the framework's package.
+There is no dependency on `gad-visual-context` or `@gad/visual-context` — the kit is intentionally inline so 7greens can ship without waiting on the framework's package.
 
 ## Env vars (all optional)
 
