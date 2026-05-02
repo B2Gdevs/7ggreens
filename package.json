@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@portfolio/ui": "npm:gad-ui@^0.1.0",
+    "@gad/ui": "npm:gad-ui@^0.1.0",
     "clsx": "^2.1.1",
     "gad-visual-context": "^0.1.2",
     "lucide-react": "^0.468.0",
