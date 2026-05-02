@@ -11,9 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@gad/ui": "npm:gad-ui@^0.1.0",
+    "@gad/ui": "workspace:*",
     "clsx": "^2.1.1",
-    "gad-visual-context": "^0.1.2",
+    "gad-visual-context": "workspace:*",
     "lucide-react": "^0.468.0",
     "next": "^16.2.4",
     "react": "19.0.0",
