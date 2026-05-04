@@ -36,8 +36,8 @@ export function SiteHeader() {
           data-cid={cid("site.header.brand")}
           className="font-display text-2xl font-medium tracking-tight"
         >
-          <span className="text-[var(--color-sage-deep)]">7</span>
-          <span>Greens</span>
+          <span className="text-[var(--color-sage-deep)]">7G</span>
+          <span> Greens</span>
         </Link>
 
         <nav

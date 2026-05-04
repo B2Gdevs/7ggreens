@@ -7,7 +7,7 @@ import { cid } from "@/lib/vcs/cid";
 export const metadata = {
   title: "Boxes",
   description:
-    "Starter and Family vegetable boxes from 7Greens — order what you want, when you want it. No subscription.",
+    "Starter and Family vegetable boxes from 7G Greens — order what you want, when you want it. No subscription.",
 };
 
 export default async function BoxesPage() {

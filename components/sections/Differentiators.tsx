@@ -19,7 +19,7 @@ export function Differentiators() {
     >
       <div className="mx-auto max-w-[var(--content-max)] px-[var(--section-px)]">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow">The 7Greens Difference</p>
+          <p className="eyebrow">The 7G Greens Difference</p>
           <h2
             className="font-display mt-4 leading-[1.05] text-[var(--color-charcoal)]"
             style={{ fontSize: "var(--text-display-md)" }}

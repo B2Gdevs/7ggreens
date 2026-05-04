@@ -12,7 +12,7 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="font-display text-3xl tracking-tight">
-              <span className="text-[var(--color-tan)]">7</span>Greens
+              <span className="text-[var(--color-tan)]">7G</span> Greens
             </p>
             <p className="mt-4 text-sm leading-relaxed text-[var(--color-cream)]/75 max-w-md">
               {SITE.legalName} — chemical-free, non-GMO produce from {SITE.address.city}, {SITE.address.state}. Cold-chain delivered to {SITE.serviceArea}.

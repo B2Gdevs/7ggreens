@@ -17,7 +17,7 @@ export function FounderStory() {
               <div className="absolute left-2 top-10 h-[76%] w-[68%] -rotate-[5deg] overflow-hidden rounded-[2rem] shadow-[0_24px_70px_rgba(60,45,30,0.2)] ring-1 ring-black/10">
                 <img
                   src="/photos/brand/field-to-family-01.jpeg"
-                  alt="7Greens harvest team working the field"
+                  alt="7G Greens harvest team working the field"
                   className="h-full w-full object-cover"
                 />
               </div>

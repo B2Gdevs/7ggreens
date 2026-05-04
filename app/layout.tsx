@@ -21,8 +21,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "7Greens — Field-fresh produce from Tyler, Texas",
-    template: "%s · 7Greens",
+    default: "7G Greens — Field-fresh produce from Tyler, Texas",
+    template: "%s · 7G Greens",
   },
   description:
     "Chemical-free, non-GMO vegetable boxes from Uncle Paul's Agritourism & Educational Corp. Cold-chain delivery to East Texas and Dallas-Fort Worth. No subscription — order what you want, when you want.",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "UPAEC",
   ],
   openGraph: {
-    title: "7Greens — Field-fresh produce, cold-chain delivered",
+    title: "7G Greens — Field-fresh produce, cold-chain delivered",
     description:
       "Non-GMO vegetable boxes from a chemical-free farm in Tyler, TX. No subscription.",
     type: "website",

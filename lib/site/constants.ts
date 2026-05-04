@@ -1,5 +1,5 @@
 /**
- * UPAEC / 7Greens canonical site constants — sourced from
+ * UPAEC / 7G Greens canonical site constants — sourced from
  * .planning/research/copy/upaec-web-page-info.md and field-to-family.md.
  *
  * Keep this file as the single source of truth for contact data, nav,
@@ -9,7 +9,7 @@
  */
 
 export const SITE = {
-  brand: "7Greens",
+  brand: "7G Greens",
   legalName: "Uncle Paul's Agritourism & Educational Corp",
   legalShort: "UPAEC",
   tagline: "Healthy Land. Healthy Greens. Healthy People.",
