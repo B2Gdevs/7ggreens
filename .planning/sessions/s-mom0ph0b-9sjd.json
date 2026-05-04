@@ -1,0 +1,29 @@
+{
+  "id": "s-mom0ph0b-9sjd",
+  "projectId": "7greens",
+  "contextMode": "loaded",
+  "position": {
+    "phase": null,
+    "plan": null,
+    "task": null
+  },
+  "status": "active",
+  "refs": [
+    {
+      "file": "AGENTS.md",
+      "reason": "agent conventions"
+    },
+    {
+      "file": ".planning\\STATE.md",
+      "reason": "current position and status"
+    },
+    {
+      "file": ".planning\\ROADMAP.md",
+      "reason": "phase roadmap"
+    }
+  ],
+  "createdAt": "2026-04-30T21:50:30.491Z",
+  "updatedAt": "2026-04-30T21:50:31.554Z",
+  "lastSnapshotAt": "2026-04-30T21:50:31.554Z",
+  "staticLoadedAt": "2026-04-30T21:50:31.554Z"
+}

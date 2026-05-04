@@ -1,0 +1,489 @@
+{
+  "scannedAt": "2026-04-30T21:50:30.999Z",
+  "projectid": "7greens",
+  "candidates": [
+    {
+      "id": "phase-11-agents-md-and-context-system",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-16-sprint-context-window-snapshot-optimizat",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-28-project-market-site-architecture-overhau",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-31-skill-ecosystem-provenance-creation-work",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-44.5-project-editor-brood-editor-dna-editor-l",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-44.5-project-editor-brood-editor-local-dev-ga",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-45-full-site-rebrand-visual-identity-copy-p",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-46-site-architecture-redesign-cli-consolida",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-51-apps-platform-scaffold-clerk-supabase-da",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-53-apps-desktop-tauri-shell-editors-termina",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-59-planning-app-split-gad-planning-serve-ga",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-60-per-project-byok-encrypted-env-gad-secre",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-63-agent-state-session-hygiene",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-65-2026-04-19-multi-agent-sprint-27-item-tu",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-68-monorepo-reorg-rename-planning-app-platf",
+      "source": "existing-candidate-dir"
+    },
+    {
+      "id": "phase-70-marketplace-move-vendor-project-market-a",
+      "source": "existing-candidate-dir"
+    }
+  ],
+  "shedCandidates": [
+    {
+      "id": "find-sprites",
+      "type": "system-requirements",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-add-tests",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-add-todo",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-audit-milestone",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-audit-uat",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-autonomous",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-check-todos",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-complete-milestone",
+      "type": "prompt",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-discuss-phase",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-do",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-docs-compile",
+      "type": "command-wrapper",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-docs-update",
+      "type": "command-wrapper",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-evolution-images",
+      "type": "command-wrapper",
+      "lane": [
+        "prod"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-execute-phase",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-forensics",
+      "type": "prompt",
+      "lane": [
+        "dev",
+        "meta"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-generation-spawn",
+      "type": "command-wrapper",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-health",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-list-phase-assumptions",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-manager",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-manuscript",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-map-codebase",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-milestone",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-milestone-summary",
+      "type": "prompt",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-new-milestone",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-new-project",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-next",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-plan-milestone-gaps",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-plan-phase",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-plant-seed",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-progress",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-reapply-patches",
+      "type": "command-wrapper",
+      "lane": [
+        "meta"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-research-phase",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-review",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-review-backlog",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-session-report",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-settings",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-task-checkpoint",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-thread",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-update",
+      "type": "command-wrapper",
+      "lane": [
+        "meta"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-validate-phase",
+      "type": "captured-answer",
+      "lane": [
+        "dev",
+        "prod"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-verify-phase",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-verify-work",
+      "type": "workflow",
+      "lane": [
+        "dev",
+        "prod"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-visual-context-panel-identities",
+      "type": "system-requirements",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-visual-context-system",
+      "type": "system-requirements",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-workspace-add",
+      "type": "captured-answer",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-workspace-show",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-workspace-sync",
+      "type": "command-wrapper",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-write-feature-doc",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-write-intent",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "gad-write-tech-doc",
+      "type": "workflow",
+      "lane": [
+        "dev"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    },
+    {
+      "id": "portfolio-sync",
+      "type": "command-wrapper",
+      "lane": [
+        "prod"
+      ],
+      "reason": "unused, unreferenced, and not meta-framework"
+    }
+  ],
+  "usageSummary": {
+    "totalRuns": 88,
+    "uniqueSkillsUsed": 33,
+    "unusedSkills": 65,
+    "attributedButMissing": 24
+  }
+}

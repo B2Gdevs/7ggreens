@@ -1,0 +1,26 @@
+{
+  "name": "7greens-pair",
+  "description": "2-worker mixed team for 7greens customer site. g-1 = paid opencode default; g-2 = free nemotron-3-super-120b for reasoning-heavy bounded work.",
+  "runtime": "opencode",
+  "workers_spec": [
+    {
+      "id": "g-1",
+      "role": "executor",
+      "lane": "opencode-default",
+      "runtime": "opencode",
+      "runtime_cmd": "node ../../scripts/gad-opencode-trial.mjs -- run --format json"
+    },
+    {
+      "id": "g-2",
+      "role": "executor",
+      "lane": "opencode-nemotron-reasoning",
+      "runtime": "opencode",
+      "runtime_cmd": "node ../../scripts/gad-opencode-trial.mjs -- run --format json --model openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+    }
+  ],
+  "tick_ms": 2000,
+  "runtime_tick_overrides": { "opencode": 2000 },
+  "autopause_threshold": 20,
+  "created_at": "2026-05-04T21:15:00.000Z",
+  "updated_at": "2026-05-04T21:15:00.000Z"
+}

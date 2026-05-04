@@ -5,8 +5,8 @@ phase: "02"
 task_id: "02-04"
 created_at: 2026-05-04T22:43:00.000Z
 created_by: g-1
-claimed_by: null
-claimed_at: null
+claimed_by: team-g-1
+claimed_at: 2026-05-04T23:14:42.262Z
 completed_at: null
 priority: medium
 estimated_context: standard

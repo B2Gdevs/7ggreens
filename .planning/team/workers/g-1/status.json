@@ -1,0 +1,14 @@
+{
+  "id": "g-1",
+  "role": "executor",
+  "lane": "opencode-default",
+  "runtime": "opencode",
+  "runtime_cmd": "node ../../scripts/gad-opencode-trial.mjs -- run --format json",
+  "pid": 13164,
+  "started_at": "2026-05-04T22:02:35.744Z",
+  "last_heartbeat": "2026-05-04T23:22:12.517Z",
+  "current_ref": "h-02-04-seo-audit",
+  "state": "WORKING",
+  "stopped_at": null,
+  "current_started_at": "2026-05-04T23:14:42.268Z"
+}

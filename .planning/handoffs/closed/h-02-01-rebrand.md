@@ -5,9 +5,9 @@ phase: "02"
 task_id: "02-01"
 created_at: 2026-05-04T22:40:00.000Z
 created_by: g-1
-claimed_by: null
-claimed_at: null
-completed_at: null
+claimed_by: team-g-1
+claimed_at: 2026-05-04T22:45:25.443Z
+completed_at: 2026-05-04T22:50:00.000Z
 priority: high
 estimated_context: standard
 risk: safe

@@ -1,0 +1,9 @@
+{
+  "kind": "handoff",
+  "ref": "h-02-02-build-verify",
+  "projectid": "7greens",
+  "priority": "high",
+  "runtime_preference": null,
+  "enqueued_at": "2026-05-04T22:43:30.395Z",
+  "enqueued_by": "dispatcher"
+}

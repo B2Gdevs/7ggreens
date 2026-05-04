@@ -8,10 +8,10 @@
   </phase>
 
   <phase id="02">
-    <task id="02-01" type="execute" status="planned"><goal>Rebrand display name '7Greens' -> '7G Greens' across all UI / copy / metadata</goal></task>
+    <task id="02-01" type="execute" status="done"><goal>Rebrand display name '7Greens' -> '7G Greens' across all UI / copy / metadata</goal></task>
     <task id="02-02" type="verify" status="planned"><goal>Verify build passes with zero errors (build, lint, typecheck)</goal></task>
     <task id="02-03" type="execute" status="planned"><goal>Photo optimization for 27 product catalog - audit sizes, compress, verify formats</goal></task>
-    <task id="02-04" type="execute" status="planned"><goal>SEO audit - meta tags, Open Graph, structured data (JSON-LD)</goal></task>
+    <task id="02-04" type="execute" status="done"><goal>SEO audit - meta tags, Open Graph, structured data (JSON-LD)</goal></task>
     <task id="02-05" type="execute" status="planned"><goal>Accessibility audit - WCAG 2.1 AA compliance, axe-core, keyboard nav</goal></task>
   </phase>
 
