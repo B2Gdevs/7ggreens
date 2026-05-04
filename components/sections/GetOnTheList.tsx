@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 
 export function GetOnTheList() {
   const [name, setName] = useState("");

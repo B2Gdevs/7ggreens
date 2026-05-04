@@ -1,4 +1,4 @@
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 import { Snowflake, Truck, Box, Clock } from "lucide-react";
 import { COLD_CHAIN } from "@/lib/site/constants";
 

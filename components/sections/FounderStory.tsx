@@ -1,4 +1,4 @@
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 import { FOUNDER_NARRATIVE } from "@/lib/site/constants";
 
 export function FounderStory() {

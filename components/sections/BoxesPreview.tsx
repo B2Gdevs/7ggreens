@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 import { fetchCatalog } from "@/lib/square/client";
 
 export async function BoxesPreview() {

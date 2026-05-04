@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 import { SITE } from "@/lib/site/constants";
 
 export function Hero() {

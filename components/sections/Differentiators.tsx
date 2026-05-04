@@ -1,5 +1,5 @@
 import { Leaf, Snowflake, Package, Sprout } from "lucide-react";
-import { Identified } from "gad-visual-context";
+import { Identified } from "@/lib/vcs/Identified";
 import { DIFFERENTIATORS } from "@/lib/site/constants";
 
 const ICONS = {
