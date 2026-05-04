@@ -17,7 +17,7 @@ export default function NotFound() {
           404
         </h1>
         <p className="mt-6 max-w-md text-base text-[var(--color-charcoal-soft)] mx-auto">
-          We don't grow that here. Try the home page or head straight for the boxes.
+          We don&apos;t grow that here. Try the home page or head straight for the boxes.
         </p>
         <div className="mt-10 flex items-center justify-center gap-4">
           <Link href="/" className="btn-primary">

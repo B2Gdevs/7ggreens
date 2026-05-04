@@ -100,10 +100,9 @@ async function getLocationId(): Promise<string | null> {
     if (id) cachedLocationId = id;
     return id;
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn("[7greens] failed to fetch Square location:", err);
-    }
+     if (process.env.NODE_ENV !== "production") {
+       console.warn("[7greens] failed to fetch Square location:", err);
+     }
     return null;
   }
 }
@@ -130,10 +129,9 @@ export async function fetchCatalog(): Promise<CatalogResult> {
  */
 export async function createCustomer(input: CustomerCreateInput): Promise<CustomerCreateResult> {
   if (!squareConfigured()) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.log("[7greens fallback] would create Square Customer:", input);
-    }
+     if (process.env.NODE_ENV !== "production") {
+       console.log("[7greens fallback] would create Square Customer:", input);
+     }
     return {
       source: "fallback",
       ok: true,
@@ -182,10 +180,9 @@ export async function createCustomer(input: CustomerCreateInput): Promise<Custom
       message: "You're on the list. We'll be in touch when boxes open.",
     };
   } catch (err) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error("[7greens] Square createCustomer failed:", err);
-    }
+     if (process.env.NODE_ENV !== "production") {
+       console.error("[7greens] Square createCustomer failed:", err);
+     }
     return {
       source: "square",
       ok: false,

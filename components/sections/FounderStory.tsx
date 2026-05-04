@@ -53,7 +53,7 @@ export function FounderStory() {
             <p className="eyebrow">Our story</p>
 
             <blockquote className="font-display-soft mt-6 text-[var(--color-sage-deep)]" style={{ fontSize: "var(--text-display-md)", lineHeight: 1.05 }}>
-              "{FOUNDER_NARRATIVE.pullQuote}"
+              &quot;{FOUNDER_NARRATIVE.pullQuote}&quot;
             </blockquote>
 
             <div className="mt-10 space-y-5 text-base leading-relaxed text-[var(--color-charcoal-soft)] md:text-lg">
@@ -64,7 +64,7 @@ export function FounderStory() {
 
             <div className="mt-10 inline-block rounded-2xl border-l-2 border-[var(--color-sage-deep)] bg-[var(--color-cream-soft)] px-6 py-4">
               <p className="font-display italic text-lg text-[var(--color-charcoal)]">
-                If we wouldn't eat it, we won't sell it.
+                If we wouldn&apos;t eat it, we won&apos;t sell it.
               </p>
             </div>
           </div>

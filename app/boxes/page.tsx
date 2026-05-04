@@ -154,9 +154,9 @@ export default async function BoxesPage() {
             >
               Every leaf, every root.
             </h2>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--color-charcoal-soft)]">
-              Photos straight from the field. What's in your box rotates with the season.
-            </p>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--color-charcoal-soft)]">
+               Photos straight from the field. What&apos;s in your box rotates with the season.
+             </p>
           </div>
 
           <ul

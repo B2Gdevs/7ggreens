@@ -55,7 +55,7 @@ export function GetOnTheList() {
                 Get on the list.
               </h2>
               <p className="mt-5 max-w-md text-base leading-relaxed text-[var(--color-charcoal-soft)]">
-                We'll email you when boxes open for the season — and only then. No filler, no spam, no daily emails.
+                We&apos;ll email you when boxes open for the season — and only then. No filler, no spam, no daily emails.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export function GetOnTheList() {
                      <Check size={18} strokeWidth={2.4} />
                    </div>
                    <div>
-                     <p className="font-display text-2xl text-[var(--color-charcoal)]">You're on the list.</p>
+                      <p className="font-display text-2xl text-[var(--color-charcoal)]">You&apos;re on the list.</p>
                      <p className="mt-2 text-sm text-[var(--color-charcoal-soft)]">{message}</p>
                    </div>
                  </div>

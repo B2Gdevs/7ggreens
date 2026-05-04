@@ -56,9 +56,9 @@ export function SiteFooter() {
               </li>
             </ul>
             <p className="mt-8 eyebrow text-[var(--color-cream)]/60">Promise</p>
-            <p className="mt-3 text-sm italic text-[var(--color-cream)]/85">
-              "If we wouldn't eat it, we won't sell it."
-            </p>
+              <p className="mt-3 text-sm italic text-[var(--color-cream)]/85">
+               &quot;If we wouldn&apos;t eat it, we won&apos;t sell it.&quot;
+             </p>
           </div>
         </div>
 

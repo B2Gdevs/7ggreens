@@ -42,6 +42,7 @@ export function DevPanel() {
     const found = Array.from(document.querySelectorAll<HTMLElement>("[data-cid]"))
       .map((el) => el.getAttribute("data-cid") || "")
       .filter(Boolean);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCids(Array.from(new Set(found)).sort());
     return () => {
       root.removeAttribute("data-vcs");
