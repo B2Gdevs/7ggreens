@@ -65,20 +65,21 @@ export function GetOnTheList() {
               className="md:col-span-7"
               noValidate
             >
-              {state === "success" ? (
-                <div
-                  role="status"
-                  className="flex items-start gap-4 rounded-2xl border border-[var(--color-sage)]/30 bg-[var(--color-sage)]/8 p-6"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-sage-deep)] text-[var(--color-cream)]">
-                    <Check size={18} strokeWidth={2.4} />
-                  </div>
-                  <div>
-                    <p className="font-display text-2xl text-[var(--color-charcoal)]">You're on the list.</p>
-                    <p className="mt-2 text-sm text-[var(--color-charcoal-soft)]">{message}</p>
-                  </div>
-                </div>
-              ) : (
+               {state === "success" ? (
+                 <div
+                   role="status"
+                   aria-live="polite"
+                   className="flex items-start gap-4 rounded-2xl border border-[var(--color-sage)]/30 bg-[var(--color-sage)]/8 p-6"
+                 >
+                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-sage-deep)] text-[var(--color-cream)]">
+                     <Check size={18} strokeWidth={2.4} />
+                   </div>
+                   <div>
+                     <p className="font-display text-2xl text-[var(--color-charcoal)]">You're on the list.</p>
+                     <p className="mt-2 text-sm text-[var(--color-charcoal-soft)]">{message}</p>
+                   </div>
+                 </div>
+               ) : (
                 <div className="grid gap-4 md:grid-cols-2">
                   <Field
                     label="Name"
@@ -137,7 +138,7 @@ export function GetOnTheList() {
                   </div>
 
                   {state === "error" && (
-                    <p className="md:col-span-2 text-sm text-[var(--color-tomato-deep)]">{message}</p>
+                    <p className="md:col-span-2 text-sm text-[var(--color-tomato-deep)]" role="alert" aria-live="assertive">{message}</p>
                   )}
                 </div>
               )}

@@ -238,6 +238,17 @@ body {
   color: var(--color-sage-text);
 }
 
+/* Focus-visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-sage-deep);
+  outline-offset: 2px;
+}
+
+/* Remove default focus for mouse users, keep for keyboard */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* VCS dev marker (only visible in dev mode via [data-vcs="on"] on root) */
 [data-vcs="on"] [data-cid] {
   outline: 1px dashed rgba(92, 122, 61, 0.35);

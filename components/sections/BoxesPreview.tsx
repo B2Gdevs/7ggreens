@@ -73,9 +73,10 @@ export async function BoxesPreview() {
                 <Link
                   href="/boxes"
                   className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-sage-deep)] hover:text-[var(--color-sage)]"
+                  aria-label={`View ${box.name} details`}
                 >
                   View this box
-                  <ArrowUpRight size={14} />
+                  <ArrowUpRight size={14} aria-hidden="true" />
                 </Link>
                 {catalog.source === "fallback" && (
                   <span className="text-[10px] uppercase tracking-widest text-[var(--color-charcoal-muted)]">

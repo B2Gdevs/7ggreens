@@ -41,40 +41,41 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          data-cid={cid("site.header.nav")}
-          className="hidden items-center gap-8 md:flex"
-        >
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-[var(--color-charcoal-soft)] hover:text-[var(--color-sage-deep)] transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+           data-cid={cid("site.header.nav")}
+           className="hidden items-center gap-8 md:flex"
+           aria-label="Main navigation"
+         >
+           {NAV.map((item) => (
+             <Link
+               key={item.href}
+               href={item.href}
+               className="text-sm font-medium text-[var(--color-charcoal-soft)] hover:text-[var(--color-sage-deep)] transition-colors"
+             >
+               {item.label}
+             </Link>
+           ))}
+         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/boxes"
-            data-cid={cid("site.header.cart")}
-            className="hidden md:inline-flex items-center gap-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-cream)]/60 px-4 py-2 text-sm font-medium hover:bg-[var(--color-cream-soft)]"
-            aria-label={`Cart, ${cartCount} items`}
-          >
-            <ShoppingBag size={16} strokeWidth={1.6} />
-            <span className="text-xs tabular-nums">{cartCount}</span>
-          </Link>
+           <Link
+             href="/boxes"
+             data-cid={cid("site.header.cart")}
+             className="hidden md:inline-flex items-center gap-2 rounded-full border border-[var(--color-border-strong)] bg-[var(--color-cream)]/60 px-4 py-2 text-sm font-medium hover:bg-[var(--color-cream-soft)]"
+             aria-label={`Cart, ${cartCount} items`}
+           >
+             <ShoppingBag size={16} strokeWidth={1.6} aria-hidden="true" />
+             <span className="text-xs tabular-nums">{cartCount}</span>
+           </Link>
 
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            className="md:hidden rounded-full border border-[var(--color-border-strong)] p-2"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+           <button
+             type="button"
+             onClick={() => setOpen((o) => !o)}
+             className="md:hidden rounded-full border border-[var(--color-border-strong)] p-2"
+             aria-label={open ? "Close menu" : "Open menu"}
+             aria-expanded={open}
+           >
+             {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+           </button>
         </div>
       </div>
 
