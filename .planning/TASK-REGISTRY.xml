@@ -55,4 +55,7 @@
     <task id="10-03" type="execute" status="planned"><goal>Newsletter signup form + API route + Resend/SendGrid list integration</goal></task>
     <task id="10-04" type="verify" status="planned"><goal>Payload CMS admin audit + role-based access: operator admin vs partner read-only</goal></task>
   </phase>
+
+  <phase id="272">
+  </phase>
 </task-registry>

@@ -1,0 +1,28 @@
+{
+  "id": "272-01",
+  "phase": "272",
+  "status": "planned",
+  "goal": "Square Node SDK server client + pull catalog (boxes/variations/add-ons) via Catalog API using SQUARE_* env",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "lib/square/client.ts",
+    "lib/square/catalog.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T18:45:12.468Z",
+  "updated_at": "2026-05-20T18:45:12.468Z"
+}

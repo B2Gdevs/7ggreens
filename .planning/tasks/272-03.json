@@ -1,0 +1,29 @@
+{
+  "id": "272-03",
+  "phase": "272",
+  "status": "planned",
+  "goal": "Cart + delivery/pickup toggle + homepage ZIP checker (service availability, delivery day, cutoff time)",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "app/(store)/cart/page.tsx",
+    "app/api/zip-check/route.ts",
+    "components/store/ZipChecker.tsx"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T18:45:14.932Z",
+  "updated_at": "2026-05-20T18:45:14.932Z"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "272-05",
+  "phase": "272",
+  "status": "planned",
+  "goal": "Square Subscriptions API: recurring box subscriptions (plan create + subscribe)",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "app/api/subscriptions/route.ts",
+    "lib/square/subscriptions.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T18:45:17.508Z",
+  "updated_at": "2026-05-20T18:45:17.508Z"
+}

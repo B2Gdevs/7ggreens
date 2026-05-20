@@ -1,0 +1,28 @@
+{
+  "id": "272-02",
+  "phase": "272",
+  "status": "planned",
+  "goal": "Store browse UI: box sizes + add-ons from Square catalog (real listings)",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "app/(store)/page.tsx",
+    "components/store/BoxCard.tsx"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T18:45:13.901Z",
+  "updated_at": "2026-05-20T18:45:13.901Z"
+}
