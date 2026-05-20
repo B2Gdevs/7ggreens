@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
-import Script from "next/script";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
 import { SiteVisualContextProvider } from "@/components/providers/SiteVisualContextProvider";
 import { SiteDevIdProvider } from "@/components/providers/SiteDevIdProvider";
+import { ClerkProviderWrapper } from "@/components/providers/ClerkProviderWrapper";
 import { structuredData } from "./structured-data";
 import "./globals.css";
 
@@ -86,15 +86,17 @@ export default function RootLayout({
         ))}
       </head>
       <body className="min-h-screen flex flex-col">
-        <SiteVisualContextProvider>
-          <SiteDevIdProvider>
-            <SiteHeader />
-            <main className="flex-1" data-cid="site.main">
-              {children}
-            </main>
-            <SiteFooter />
-          </SiteDevIdProvider>
-        </SiteVisualContextProvider>
+        <ClerkProviderWrapper>
+          <SiteVisualContextProvider>
+            <SiteDevIdProvider>
+              <SiteHeader />
+              <main className="flex-1" data-cid="site.main">
+                {children}
+              </main>
+              <SiteFooter />
+            </SiteDevIdProvider>
+          </SiteVisualContextProvider>
+        </ClerkProviderWrapper>
       </body>
     </html>
   );

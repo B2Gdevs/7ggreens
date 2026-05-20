@@ -1,7 +1,7 @@
 {
   "id": "272-03",
   "phase": "272",
-  "status": "planned",
+  "status": "done",
   "goal": "Cart + delivery/pickup toggle + homepage ZIP checker (service availability, delivery day, cutoff time)",
   "type": "",
   "keywords": "",
@@ -10,11 +10,18 @@
   "files": [
     "app/(store)/cart/page.tsx",
     "app/api/zip-check/route.ts",
-    "components/store/ZipChecker.tsx"
+    "components/store/ZipChecker.tsx",
+    "lib/cart-store.ts",
+    "lib/delivery/zones.ts",
+    "components/sections/ZipChecker.tsx",
+    "components/cart/CartDrawer.tsx",
+    "components/store/AddToCartButton.tsx",
+    "components/chrome/SiteHeader.tsx",
+    "app/page.tsx"
   ],
-  "agent_id": "",
+  "agent_id": "claude-sonnet-4-6",
   "agent_role": "",
-  "runtime": "",
+  "runtime": "claude-code",
   "model_profile": "",
   "resolved_model": "",
   "skill": "",
@@ -25,5 +32,5 @@
   "completed_at": "",
   "resolution": "",
   "created_at": "2026-05-20T18:45:14.932Z",
-  "updated_at": "2026-05-20T18:45:14.932Z"
+  "updated_at": "2026-05-20T22:56:31.528Z"
 }

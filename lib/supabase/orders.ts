@@ -32,6 +32,8 @@ export interface OrderInsertParams {
   receipt_url?: string | null;
   /** Payment status as returned by Square (e.g. "COMPLETED") */
   status: string;
+  /** Clerk user ID when customer is signed in (272-06) */
+  clerk_user_id?: string | null;
 }
 
 export interface OrderInsertResult {
@@ -73,6 +75,8 @@ export async function insertOrder(
         customer_email: params.customer_email ?? null,
         receipt_url: params.receipt_url ?? null,
         status: params.status,
+        // Clerk user ID — links the order to a customer account (272-06)
+        clerk_user_id: params.clerk_user_id ?? null,
         // created_at is set by the DB default (now())
       })
       .select("id")

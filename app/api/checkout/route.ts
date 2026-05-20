@@ -34,6 +34,19 @@ import { randomUUID } from "crypto";
 import { insertOrder } from "@/lib/supabase/orders";
 import { sendOrderConfirmation } from "@/lib/email/order-confirmation";
 
+// ── Clerk auth (optional) ─────────────────────────────────────────────────────
+// Gracefully skipped when CLERK_SECRET_KEY is absent.
+async function getClerkUserId(req: NextRequest): Promise<string | null> {
+  if (!process.env.CLERK_SECRET_KEY) return null;
+  try {
+    const { getAuth } = await import("@clerk/nextjs/server");
+    const { userId } = getAuth(req);
+    return userId ?? null;
+  } catch {
+    return null;
+  }
+}
+
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 function buildSquareClient(): SquareClient | null {
@@ -155,6 +168,8 @@ export async function POST(req: NextRequest) {
 
     // ── 5. Persist order (272-07) ────────────────────────────────────────────
     // Fire-and-forget pattern: persistence failure MUST NOT fail the payment.
+    // Attach Clerk user ID when auth is configured (272-06).
+    const clerkUserId = await getClerkUserId(req);
     const orderResult = await insertOrder({
       payment_id: payment.id ?? `unknown-${Date.now()}`,
       item_id: body.itemId,
@@ -163,6 +178,7 @@ export async function POST(req: NextRequest) {
       customer_email: body.customerEmail ?? null,
       receipt_url: payment.receiptUrl ?? null,
       status: payment.status ?? "COMPLETED",
+      clerk_user_id: clerkUserId ?? undefined,
     });
 
     if (!orderResult.ok) {
