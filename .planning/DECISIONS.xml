@@ -22,4 +22,9 @@
     <summary>UPAEC landing images (32 farm photos in sites/upaec/public/images + gad media scoped to upaec) must be CATEGORIZED by what's actually IN them -- requires a vision step (caption/classify each image via a vision model: local VLM through Ollama/opencode backend, or the configured cloud backend). Pipeline: (1) caption/classify each image -&gt; category tags (e.g. produce, farm-landscape, people, events, boxes); (2) persist tags in gad media metadata for upaec; (3) the landing page pulls images BY CATEGORY for specific sections/copies. Operator: 'we need some way of seeing what is in the image to categorize it.' This is the bridge from raw photos to a content-driven landing.</summary>
   </decision>
 
+  <decision id="GLOBAL-D-420">
+    <title>UPAEC commerce = Square (full store v1); env pulled from Vercel</title>
+    <summary>UPAEC is ALREADY on Square. Commerce backend = Square, NOT Shopify/Payload/Woo. Products/listings/catalog come FROM Square (Square Catalog API); checkout + payments + recurring subscriptions via Square. v1 target = FULL STORE (cart + checkout + payments + subscriptions), not lead-capture-only. (Payload was only suggested because the stakeholder requirements doc listed it; superseded -- no CMS, use Square.) Environment: the Vercel project (7greens) already HAS the env vars (Square keys etc.) -- pull them via 'vercel env pull' rather than re-provisioning. Partner co-sell (2S Ranch, Southern Sunny Acres) must work with Square's embed/checkout story. Phase 272 builds against Square.</summary>
+  </decision>
+
 </decisions>
