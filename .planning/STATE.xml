@@ -6,6 +6,7 @@
   <last-activity>2026-05-04</last-activity>
   <next-action>Phase 02 planned. 5 tasks registered (02-01..05). Per-task handoffs planted in .planning/handoffs/open/.</next-action>
   <state-log>
+    <entry agent="unknown" at="2026-05-20T22:15:43.314Z">272-05 done: Square Subscriptions API + subscribe flow (plan→customer→card-on-file→subscription) + Supabase persistence + Resend confirmation email; build clean, no keys required</entry>
     <entry agent="unknown" at="2026-05-20T22:04:26.491Z">272-07+272-09: Supabase order persistence + Resend confirmation email wired into /api/checkout; graceful degradation on missing keys; build clean</entry>
     <entry agent="unknown" at="2026-05-20T21:57:41.998Z">272-04: Square Web Payments checkout live — CheckoutForm (SDK tokenize) + /api/checkout (Payments API) + /store/checkout page + BoxCard CTA wired; graceful unconfigured path verified; build clean</entry>
     <entry agent="unknown" at="2026-05-20T21:20:10.217Z">U-T-272-10 done — gad-env.schema.toml (5 features, 27 vars) + .env.example written in sites/upaec; build clean</entry>

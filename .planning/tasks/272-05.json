@@ -1,7 +1,7 @@
 {
   "id": "272-05",
   "phase": "272",
-  "status": "planned",
+  "status": "done",
   "goal": "Square Subscriptions API: recurring box subscriptions (plan create + subscribe)",
   "type": "",
   "keywords": "",
@@ -9,11 +9,17 @@
   "commands": [],
   "files": [
     "app/api/subscriptions/route.ts",
-    "lib/square/subscriptions.ts"
+    "lib/square/subscriptions.ts",
+    "lib/supabase/subscriptions.ts",
+    "supabase/migrations/20260520_create_subscriptions.sql",
+    "lib/email/subscription-confirmation.ts",
+    "app/api/subscribe/route.ts",
+    "components/subscribe/SubscribeForm.tsx",
+    "app/(store)/store/subscribe/page.tsx"
   ],
-  "agent_id": "",
+  "agent_id": "claude-sonnet-4-6",
   "agent_role": "",
-  "runtime": "",
+  "runtime": "claude-code",
   "model_profile": "",
   "resolved_model": "",
   "skill": "",
@@ -24,5 +30,5 @@
   "completed_at": "",
   "resolution": "",
   "created_at": "2026-05-20T18:45:17.508Z",
-  "updated_at": "2026-05-20T18:45:17.508Z"
+  "updated_at": "2026-05-20T22:15:36.422Z"
 }
