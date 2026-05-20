@@ -1,0 +1,156 @@
+# =============================================================================
+# UPAEC — gad env schema
+#
+# Project: upaec (sites/upaec)
+# Consumed by: gad env doctor --projectid upaec
+#              apps/desk Env route (env.rs → env_schema_snapshot command)
+#
+# Ancestor vars inherited from <monorepo>/.gad/env.schema.toml:
+#   NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY,
+#   SUPABASE_SERVICE_ROLE_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY
+#
+# Project vars below add Square, Resend, Clerk, Twilio which are
+# upaec-specific and not in the monorepo ancestor.
+# =============================================================================
+
+[meta]
+project     = "upaec"
+description = "UPAEC consumer storefront — Square commerce + Supabase data + Resend email"
+
+# =============================================================================
+# Features — declare required/optional vars per feature area.
+# env doctor surfaces missing required vars as a doctor banner in the desk
+# Env route. Features are project-local (not inherited by child schemas).
+# =============================================================================
+
+[features.square_commerce]
+title    = "Square Commerce"
+required = ["SQUARE_ACCESS_TOKEN"]
+optional = ["SQUARE_ENVIRONMENT", "SQUARE_LOCATION_ID", "SQUARE_WEBHOOK_SIGNATURE_KEY"]
+
+[features.supabase_data]
+title    = "Supabase Data Layer"
+required = ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+optional = ["SUPABASE_SERVICE_ROLE_KEY"]
+
+[features.resend_email]
+title    = "Resend Email"
+required = ["RESEND_API_KEY"]
+optional = ["RESEND_FROM"]
+
+[features.clerk_auth]
+title    = "Clerk Auth"
+required = ["NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "CLERK_SECRET_KEY"]
+optional = ["NEXT_PUBLIC_CLERK_SIGN_IN_URL", "NEXT_PUBLIC_CLERK_SIGN_UP_URL"]
+
+[features.twilio_sms]
+title    = "Twilio SMS Notifications"
+required = []
+optional = ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_FROM_NUMBER"]
+
+# =============================================================================
+# Vars — project-level metadata. Supabase vars use inherited metadata from
+# the ancestor schema. Only Square, Resend, Clerk, Twilio are declared here.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Square — primary commerce layer (catalog, payments, subscriptions)
+# Phase 272: D-420 / D-426
+# -----------------------------------------------------------------------------
+
+[vars.SQUARE_ACCESS_TOKEN]
+provider    = "Square"
+prefix      = "EAAAl"
+help_url    = "https://developer.squareup.com/apps"
+sensitive   = true
+description = "Square OAuth access token. Use sandbox token for preview/dev, production token for live payments."
+
+[vars.SQUARE_ENVIRONMENT]
+provider    = "Square"
+example     = "sandbox"
+sensitive   = false
+description = "Square API environment: 'sandbox' (default) or 'production'. Controls which Square endpoint the SDK targets."
+
+[vars.SQUARE_LOCATION_ID]
+provider    = "Square"
+help_url    = "https://developer.squareup.com/apps"
+sensitive   = false
+description = "Square merchant location ID. Scopes catalog queries and payment processing to a specific location."
+
+[vars.SQUARE_WEBHOOK_SIGNATURE_KEY]
+provider    = "Square"
+sensitive   = true
+description = "Square webhook signature key. Used by app/api/webhooks/square/route.ts to validate incoming webhook payloads."
+
+# -----------------------------------------------------------------------------
+# Resend — transactional email (order confirmation, day-before reminder)
+# Phase 272-09 / task 10-03
+# -----------------------------------------------------------------------------
+
+[vars.RESEND_API_KEY]
+provider    = "Resend"
+prefix      = "re_"
+help_url    = "https://resend.com/api-keys"
+sensitive   = true
+description = "Resend API key for sending order confirmations, delivery reminders, and newsletter emails."
+
+[vars.RESEND_FROM]
+provider    = "Resend"
+example     = "orders@upaec.com"
+sensitive   = false
+description = "From address for outgoing transactional emails. Must be a verified Resend sender domain."
+
+# -----------------------------------------------------------------------------
+# Clerk — auth / user identity (UPAEC tenant, D-425)
+# Phase 272-06
+# -----------------------------------------------------------------------------
+
+[vars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY]
+provider    = "Clerk"
+prefix      = "pk_"
+help_url    = "https://dashboard.clerk.com/apps"
+sensitive   = false
+description = "Clerk publishable key. Embedded in client bundles — safe to expose."
+
+[vars.CLERK_SECRET_KEY]
+provider    = "Clerk"
+prefix      = "sk_"
+help_url    = "https://dashboard.clerk.com/apps"
+sensitive   = true
+description = "Clerk secret key. Server-only — never prefix with NEXT_PUBLIC_."
+
+[vars.NEXT_PUBLIC_CLERK_SIGN_IN_URL]
+provider    = "Clerk"
+example     = "/sign-in"
+sensitive   = false
+description = "Custom sign-in page path. Defaults to Clerk-hosted UI if unset."
+
+[vars.NEXT_PUBLIC_CLERK_SIGN_UP_URL]
+provider    = "Clerk"
+example     = "/sign-up"
+sensitive   = false
+description = "Custom sign-up page path. Defaults to Clerk-hosted UI if unset."
+
+# -----------------------------------------------------------------------------
+# Twilio — SMS notifications (day-before reminders, phase 272-09)
+# Optional feature — Resend handles email; Twilio adds SMS channel.
+# -----------------------------------------------------------------------------
+
+[vars.TWILIO_ACCOUNT_SID]
+provider    = "Twilio"
+prefix      = "AC"
+help_url    = "https://console.twilio.com"
+sensitive   = true
+description = "Twilio account SID. Required only when SMS notifications are enabled."
+
+[vars.TWILIO_AUTH_TOKEN]
+provider    = "Twilio"
+help_url    = "https://console.twilio.com"
+sensitive   = true
+description = "Twilio auth token. Server-only."
+
+[vars.TWILIO_FROM_NUMBER]
+provider    = "Twilio"
+example     = "+15551234567"
+sensitive   = false
+description = "E.164 formatted Twilio phone number to send SMS from."
