@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.opencode/
+.planning/.trace-events.jsonl
+.planning/.trace-seq
+.planning/.gad-log/
+.planning/.provenance/
+.planning/.sessions/
+.planning/datasets/
+.planning/graph.json
+.planning/media-attachments.json
+.planning/team/workers/
+tsconfig.tsbuildinfo
+*.tsbuildinfo
