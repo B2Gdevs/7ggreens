@@ -17,4 +17,9 @@
     <summary>Operator wants own repo for 7greens AND monorepo package consumption. Submodule pattern serves both. Future-proof for when gad-visual-context publishes to npm and 7greens can detach.</summary>
   </decision>
 
+  <decision id="GLOBAL-D-417">
+    <title>UPAEC images: vision-categorize then landing pulls copy/images by category</title>
+    <summary>UPAEC landing images (32 farm photos in sites/upaec/public/images + gad media scoped to upaec) must be CATEGORIZED by what's actually IN them -- requires a vision step (caption/classify each image via a vision model: local VLM through Ollama/opencode backend, or the configured cloud backend). Pipeline: (1) caption/classify each image -&gt; category tags (e.g. produce, farm-landscape, people, events, boxes); (2) persist tags in gad media metadata for upaec; (3) the landing page pulls images BY CATEGORY for specific sections/copies. Operator: 'we need some way of seeing what is in the image to categorize it.' This is the bridge from raw photos to a content-driven landing.</summary>
+  </decision>
+
 </decisions>

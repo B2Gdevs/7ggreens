@@ -90,4 +90,11 @@
     <milestone>v2</milestone>
   </phase>
 
+  <phase id="272">
+    <title>UPAEC commerce + content: products/listings/store + image categorization</title>
+    <goal>Make the UPAEC site actually functional (currently scaffolding: home + /boxes routes only, NO products/listings/cart/checkout). Build the online store pulling products + listings (per the requirements: box sizes, add-ons, subscription + one-time, delivery/pickup), wire the categorized landing images (D-417) into section copy, and progress the ZIP checker / events per the roadmap (phases 07-10). Vision-categorize the 32 images first so the landing can pull by category.</goal>
+    <status>planned</status>
+    <depends></depends>
+  </phase>
+
 </roadmap>
