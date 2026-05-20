@@ -2,15 +2,16 @@
  * BoxCard — store browse product card.
  *
  * Renders a single box product with name, price, item list, and
- * a disabled CTA (checkout wires in task 272-04). Shows a "Live"
- * badge when the data source is Square; "Preview" when fallback.
+ * a CTA that routes to /store/checkout with item searchParams.
+ * Shows a "Live" badge when the data source is Square; "Preview" when fallback.
  *
  * VCS: data-cid applied to the article root so DevPanel can
  * address each card by box id.
  *
- * Task: UPAEC-T-272-02
+ * Task: UPAEC-T-272-02 / 272-04
  */
 
+import Link from "next/link";
 import { Check, Leaf } from "lucide-react";
 import type { BoxItem } from "@/lib/square/client";
 import { cid } from "@/lib/vcs/cid";
@@ -95,17 +96,16 @@ export function BoxCard({ box, source, index }: BoxCardProps) {
 
       {/* CTA */}
       <div className="mt-10 flex items-center justify-between gap-4">
-        <button
-          type="button"
+        <Link
+          href={`/store/checkout?id=${encodeURIComponent(box.id)}&name=${encodeURIComponent(box.name)}&price=${box.priceCents}`}
           className="btn-primary"
-          aria-label={`Add ${box.name} to cart`}
-          disabled
-          title="Square checkout connects in phase 272-04"
+          aria-label={`Order ${box.name} — ${box.priceDisplay}`}
+          data-cid={cid(`store.browse.box.${box.id}.cta`)}
         >
           Order This Box
-        </button>
+        </Link>
         <span className="text-[10px] uppercase tracking-widest text-[var(--color-charcoal-muted)]">
-          {source === "square" ? "Square checkout" : "Checkout coming soon"}
+          {source === "square" ? "Square checkout" : "Preview pricing"}
         </span>
       </div>
     </article>

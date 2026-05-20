@@ -25,8 +25,8 @@ description = "UPAEC consumer storefront — Square commerce + Supabase data + R
 
 [features.square_commerce]
 title    = "Square Commerce"
-required = ["SQUARE_ACCESS_TOKEN"]
-optional = ["SQUARE_ENVIRONMENT", "SQUARE_LOCATION_ID", "SQUARE_WEBHOOK_SIGNATURE_KEY"]
+required = ["SQUARE_ACCESS_TOKEN", "NEXT_PUBLIC_SQUARE_APPLICATION_ID", "NEXT_PUBLIC_SQUARE_LOCATION_ID"]
+optional = ["SQUARE_ENVIRONMENT", "SQUARE_LOCATION_ID", "SQUARE_WEBHOOK_SIGNATURE_KEY", "NEXT_PUBLIC_SQUARE_ENVIRONMENT"]
 
 [features.supabase_data]
 title    = "Supabase Data Layer"
@@ -81,6 +81,25 @@ description = "Square merchant location ID. Scopes catalog queries and payment p
 provider    = "Square"
 sensitive   = true
 description = "Square webhook signature key. Used by app/api/webhooks/square/route.ts to validate incoming webhook payloads."
+
+[vars.NEXT_PUBLIC_SQUARE_APPLICATION_ID]
+provider    = "Square"
+prefix      = "sq0idp-"
+help_url    = "https://developer.squareup.com/apps"
+sensitive   = false
+description = "Square application ID. Embedded in client bundle for Web Payments SDK initialization. Get from Developer Dashboard → Applications."
+
+[vars.NEXT_PUBLIC_SQUARE_LOCATION_ID]
+provider    = "Square"
+help_url    = "https://developer.squareup.com/apps"
+sensitive   = false
+description = "Square location ID exposed to the client. Required by the Web Payments SDK. Must match the server-side SQUARE_LOCATION_ID."
+
+[vars.NEXT_PUBLIC_SQUARE_ENVIRONMENT]
+provider    = "Square"
+example     = "sandbox"
+sensitive   = false
+description = "Square environment for the Web Payments SDK: 'sandbox' (default) or 'production'. Controls which Square CDN script URL is loaded."
 
 # -----------------------------------------------------------------------------
 # Resend — transactional email (order confirmation, day-before reminder)
