@@ -27,4 +27,9 @@
     <summary>UPAEC is ALREADY on Square. Commerce backend = Square, NOT Shopify/Payload/Woo. Products/listings/catalog come FROM Square (Square Catalog API); checkout + payments + recurring subscriptions via Square. v1 target = FULL STORE (cart + checkout + payments + subscriptions), not lead-capture-only. (Payload was only suggested because the stakeholder requirements doc listed it; superseded -- no CMS, use Square.) Environment: the Vercel project (7greens) already HAS the env vars (Square keys etc.) -- pull them via 'vercel env pull' rather than re-provisioning. Partner co-sell (2S Ranch, Southern Sunny Acres) must work with Square's embed/checkout story. Phase 272 builds against Square.</summary>
   </decision>
 
+  <decision id="GLOBAL-D-426">
+    <title>UPAEC commerce build spec (final): Square Web Payments + Subscriptions + existing catalog; Clerk auth; Supabase app data</title>
+    <summary>Finalizes D-420. CHECKOUT = Square Web Payments SDK (in-page card + Apple/Google Pay, mobile+desktop optimized). SUBSCRIPTIONS = Square Subscriptions API (recurring boxes). CATALOG = pull the EXISTING Square catalog AS-IS (boxes/variations/add-ons already configured) via Square Catalog API + official 'square' Node SDK server-side (SQUARE_* keys already in Vercel, dev+prod). AUTH = Clerk in the UPAEC tenant (D-425); Square customer linked to the Clerk user. APP DATA (delivery zones, ZIP-&gt;route rules, cutoff times, pickup scheduling) = Supabase Postgres (provision a Supabase project + keys; ZIP rules may start as config then migrate). FLOW: browse catalog -&gt; pick box size + add-ons -&gt; delivery OR pickup + ZIP validate (day + cutoff) -&gt; checkout (Web Payments) -&gt; one-time or Square subscription. Then notifications (Resend email + SMS) + partner co-sell + events per roadmap 07-10. Vision-categorize the 32 landing images (D-417) and wire into copy.</summary>
+  </decision>
+
 </decisions>
