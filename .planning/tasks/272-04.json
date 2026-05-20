@@ -1,7 +1,7 @@
 {
   "id": "272-04",
   "phase": "272",
-  "status": "planned",
+  "status": "done",
   "goal": "Square Web Payments SDK in-page checkout (card + Apple/Google Pay), one-time purchase",
   "type": "",
   "keywords": "",
@@ -9,11 +9,16 @@
   "commands": [],
   "files": [
     "app/(store)/checkout/page.tsx",
-    "app/api/checkout/route.ts"
+    "app/api/checkout/route.ts",
+    "components/checkout/CheckoutForm.tsx",
+    "app/(store)/store/checkout/page.tsx",
+    "components/store/BoxCard.tsx",
+    "gad-env.schema.toml",
+    ".env.example"
   ],
-  "agent_id": "",
+  "agent_id": "claude-sonnet-4-6",
   "agent_role": "",
-  "runtime": "",
+  "runtime": "claude-code",
   "model_profile": "",
   "resolved_model": "",
   "skill": "",
@@ -24,5 +29,5 @@
   "completed_at": "",
   "resolution": "",
   "created_at": "2026-05-20T18:45:16.245Z",
-  "updated_at": "2026-05-20T18:45:16.245Z"
+  "updated_at": "2026-05-20T21:57:34.549Z"
 }
