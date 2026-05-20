@@ -1,0 +1,28 @@
+{
+  "id": "U-T-272-10",
+  "phase": "272",
+  "status": "done",
+  "goal": "Declare UPAEC required env keys in gad-env.schema.toml + .env.example so desk Env route validates them and can push to Vercel",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "sites/upaec/gad-env.schema.toml",
+    "sites/upaec/.env.example"
+  ],
+  "agent_id": "claude-sonnet-4-6",
+  "agent_role": "",
+  "runtime": "claude-code",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T21:17:58.177Z",
+  "updated_at": "2026-05-20T21:20:03.142Z"
+}
