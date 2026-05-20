@@ -1,7 +1,7 @@
 {
   "id": "272-07",
   "phase": "272",
-  "status": "planned",
+  "status": "done",
   "goal": "Supabase schema + client: delivery zones, ZIP->route rules, cutoff times, pickup scheduling, order metadata",
   "type": "",
   "keywords": "",
@@ -9,11 +9,14 @@
   "commands": [],
   "files": [
     "lib/supabase/client.ts",
-    "supabase/migrations"
+    "supabase/migrations",
+    "lib/supabase/orders.ts",
+    "supabase/migrations/20260520_create_orders.sql",
+    "app/api/checkout/route.ts"
   ],
-  "agent_id": "",
+  "agent_id": "claude-sonnet-4-6",
   "agent_role": "",
-  "runtime": "",
+  "runtime": "claude-code",
   "model_profile": "",
   "resolved_model": "",
   "skill": "",
@@ -24,5 +27,5 @@
   "completed_at": "",
   "resolution": "",
   "created_at": "2026-05-20T18:45:19.313Z",
-  "updated_at": "2026-05-20T18:45:19.313Z"
+  "updated_at": "2026-05-20T22:04:12.845Z"
 }

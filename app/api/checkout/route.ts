@@ -2,29 +2,37 @@
  * POST /api/checkout — Square Payments API, one-time purchase.
  *
  * Body (JSON):
- *   { sourceId: string, itemId: string, itemName: string, amountCents: number, note?: string }
+ *   { sourceId: string, itemId: string, itemName: string, amountCents: number,
+ *     note?: string, customerEmail?: string }
  *
  * Returns:
  *   { ok: true, paymentId: string, receiptUrl?: string }
  *   { ok: false, error: string, configured: boolean }
  *
- * Graceful degradation: when Square keys are absent, returns a 200 with
- *   ok:false + configured:false so the client can show a "not configured"
- *   state instead of a crash.
+ * Graceful degradation:
+ *   - Square keys absent → 200 ok:false configured:false (no crash)
+ *   - Supabase keys absent or insert fails → payment still succeeds, warns
+ *   - Resend key absent or send fails → payment still succeeds, warns
  *
  * Env vars consumed (server-only):
- *   SQUARE_ACCESS_TOKEN     — required for live payments
- *   SQUARE_ENVIRONMENT      — "sandbox" | "production" (default: sandbox)
- *   SQUARE_LOCATION_ID      — required for payment; falls back to first
- *                              location if unset
+ *   SQUARE_ACCESS_TOKEN         — required for live payments
+ *   SQUARE_ENVIRONMENT          — "sandbox" | "production" (default: sandbox)
+ *   SQUARE_LOCATION_ID          — required for payment; falls back to first
+ *                                  location if unset
+ *   NEXT_PUBLIC_SUPABASE_URL    — required for order persistence
+ *   SUPABASE_SERVICE_ROLE_KEY   — required for order persistence
+ *   RESEND_API_KEY              — required for confirmation email
+ *   RESEND_FROM                 — from address (default: orders@upaec.com)
  *
- * Task: UPAEC-T-272-04
+ * Tasks: UPAEC-T-272-04 (Square), UPAEC-T-272-07 (Supabase), UPAEC-T-272-09 (Resend)
  */
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { SquareClient, SquareEnvironment, SquareError } from "square";
 import { randomUUID } from "crypto";
+import { insertOrder } from "@/lib/supabase/orders";
+import { sendOrderConfirmation } from "@/lib/email/order-confirmation";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -64,6 +72,8 @@ interface CheckoutBody {
   amountCents: number;
   /** Optional buyer note */
   note?: string;
+  /** Optional buyer email — enables order confirmation email */
+  customerEmail?: string;
 }
 
 function isValidBody(body: unknown): body is CheckoutBody {
@@ -141,6 +151,39 @@ export async function POST(req: NextRequest) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (payment as any)?.failureCode ?? "Payment failed";
       return NextResponse.json({ ok: false, configured: true, error: detail }, { status: 402 });
+    }
+
+    // ── 5. Persist order (272-07) ────────────────────────────────────────────
+    // Fire-and-forget pattern: persistence failure MUST NOT fail the payment.
+    const orderResult = await insertOrder({
+      payment_id: payment.id ?? `unknown-${Date.now()}`,
+      item_id: body.itemId,
+      item_name: body.itemName,
+      amount_cents: body.amountCents,
+      customer_email: body.customerEmail ?? null,
+      receipt_url: payment.receiptUrl ?? null,
+      status: payment.status ?? "COMPLETED",
+    });
+
+    if (!orderResult.ok) {
+      // Already warned inside insertOrder — don't surface to client.
+      console.warn("[upaec] Order persistence skipped/failed for payment:", payment.id, orderResult.error);
+    }
+
+    // ── 6. Send confirmation email (272-09) ──────────────────────────────────
+    // Only send when a customer email was provided. Failure does NOT fail the payment.
+    if (body.customerEmail) {
+      const emailResult = await sendOrderConfirmation({
+        to: body.customerEmail,
+        itemName: body.itemName,
+        amountCents: body.amountCents,
+        paymentId: payment.id ?? "",
+        receiptUrl: payment.receiptUrl ?? null,
+      });
+
+      if (!emailResult.ok && !emailResult.skipped) {
+        console.warn("[upaec] Confirmation email failed for payment:", payment.id, emailResult.error);
+      }
     }
 
     return NextResponse.json({
