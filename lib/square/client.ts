@@ -15,7 +15,7 @@
  *   Payments). Not required for Customer creation.
  */
 
-import { BOX_FALLBACKS } from "@/lib/site/constants";
+import { fetchCatalogCompat } from "@/lib/square/catalog";
 
 export type SquareEnv = "sandbox" | "production";
 
@@ -108,19 +108,12 @@ async function getLocationId(): Promise<string | null> {
 }
 
 /**
- * Fetch the box catalog. Falls back to static placeholders when
- * Square is not configured. (Live Square Catalog wiring lands in
- * Phase 03 once the operator's Catalog items are mapped — for now
- * we keep the well-known fallback shape regardless of token state.)
+ * Fetch the box catalog. Delegates to the Square Node SDK catalog module
+ * (lib/square/catalog.ts) which handles live API calls and graceful
+ * fallback when SQUARE_ACCESS_TOKEN is absent or any call fails.
  */
 export async function fetchCatalog(): Promise<CatalogResult> {
-  // Until we have catalog items mapped to Square, always serve fallbacks.
-  // squareConfigured() is checked elsewhere (e.g. for live Customer creation).
-  return {
-    source: "fallback",
-    starter: { ...BOX_FALLBACKS.starter, items: [...BOX_FALLBACKS.starter.items] },
-    family: { ...BOX_FALLBACKS.family, items: [...BOX_FALLBACKS.family.items] },
-  };
+  return fetchCatalogCompat();
 }
 
 /**

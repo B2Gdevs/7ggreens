@@ -33,6 +33,7 @@ export const SITE = {
 
 export const NAV: ReadonlyArray<{ label: string; href: string; external?: boolean }> = [
   { label: "Our Story", href: "/#story" },
+  { label: "Shop", href: "/store" },
   { label: "Boxes", href: "/boxes" },
   { label: "How It Works", href: "/#cold-chain" },
   { label: "Contact", href: "/#contact" },

@@ -6,6 +6,7 @@
   <last-activity>2026-05-04</last-activity>
   <next-action>Phase 02 planned. 5 tasks registered (02-01..05). Per-task handoffs planted in .planning/handoffs/open/.</next-action>
   <state-log>
+    <entry agent="unknown" at="2026-05-20T20:33:40.660Z">272-01+272-02: Square Node SDK catalog client + /store browse page; SDK install + fetchFullCatalog + BoxCard + fallback-when-no-env</entry>
     <entry agent="g-1" at="2026-05-04T22:50:00.000Z">Task 02-01 complete: Rebrand 7Greens→7G Greens across all UI copy, metadata, constants. Build passes. Commit: 36ef748</entry>
     <entry agent="g-1" at="2026-05-04T22:45:00.000Z">Phase 02 PLAN.md created. Tasks 02-01..05 registered. Rebrand 7Greens→7G Greens (02-01) is highest priority. Build verification (02-02) prerequisite for all other tasks.</entry>
     <entry agent="unknown" at="2026-04-30T17:59:03.669Z">01-01 done by codex: file-write-only bootstrap. install + shadcn deferred - operator runs after rename subagent (gad-visual-context publish) lands.</entry>
