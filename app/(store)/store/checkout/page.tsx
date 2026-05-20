@@ -3,25 +3,30 @@
  *
  * Entry points:
  *   /store/checkout?id=<variationId>&name=<name>&price=<cents>
+ *     Single-item checkout (direct from BoxCard "Buy now" or legacy link).
  *
- * The item parameters are passed via searchParams from the /store BoxCard.
- * All values are validated/clamped before rendering.
+ *   /store/checkout?cart=1
+ *     Multi-item checkout from CartDrawer. The CartCheckoutView client
+ *     component reads the Zustand cart store and renders an order summary
+ *     before passing the combined total to CheckoutForm.
+ *
+ * Multi-item note: Square processes one combined payment (total of all cart
+ * items). Individual line-items appear in the order summary display only.
  *
  * VCS cids:
- *   checkout.page        — page root
+ *   checkout.page        — page root (single-item path)
  *   checkout.page.hero   — page header + item summary
  *   checkout.page.form   — form container
+ *   (cart path delegates to CartCheckoutView component cids)
  *
- * Design: Heritage Modern — earthy cream/charcoal/sage palette.
- * Fraunces display + Plus Jakarta Sans body (from globals.css).
- *
- * Task: UPAEC-T-272-04
+ * Task: UPAEC-T-272-04 / 272-11
  */
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
+import { CartCheckoutView } from "@/components/checkout/CartCheckoutView";
 import { cid } from "@/lib/vcs/cid";
 
 export const metadata: Metadata = {
@@ -38,6 +43,8 @@ interface CheckoutPageProps {
     name?: string;
     price?: string;
     variation?: string;
+    /** cart=1 → multi-item checkout from CartDrawer */
+    cart?: string;
   }>;
 }
 
@@ -48,7 +55,25 @@ function centsToDollars(cents: number): string {
 export default async function CheckoutPage({ searchParams }: CheckoutPageProps) {
   const params = await searchParams;
 
-  // Parse + sanitize searchParams
+  // ── Multi-item cart checkout ─────────────────────────────────────────────────
+  // Delegate to client component that reads the Zustand cart store.
+  if (params.cart === "1") {
+    return (
+      <>
+        <a
+          href="#checkout-main"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:px-4 focus:py-2 focus:text-sm focus:bg-[var(--color-sage-deep)] focus:text-[var(--color-cream)]"
+        >
+          Skip to checkout
+        </a>
+        <div id="checkout-main" data-cid={cid("checkout.page")}>
+          <CartCheckoutView />
+        </div>
+      </>
+    );
+  }
+
+  // ── Single-item checkout ─────────────────────────────────────────────────────
   const rawId = typeof params.id === "string" ? params.id.trim() : "";
   const rawName = typeof params.name === "string" ? decodeURIComponent(params.name).trim() : "";
   const rawPrice = typeof params.price === "string" ? parseInt(params.price, 10) : 0;

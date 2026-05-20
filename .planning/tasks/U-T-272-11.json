@@ -1,0 +1,31 @@
+{
+  "id": "U-T-272-11",
+  "phase": "272",
+  "status": "done",
+  "goal": "Add-to-cart UX: BoxCard primary CTA switched to AddToCartButton; CartDrawer checkout handles multi-item cart via ?cart=1; CartCheckoutView client component; AddToCartButton gains size+label props",
+  "type": "",
+  "keywords": "",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "components/store/BoxCard.tsx",
+    "components/store/AddToCartButton.tsx",
+    "components/cart/CartDrawer.tsx",
+    "components/checkout/CartCheckoutView.tsx",
+    "app/(store)/store/checkout/page.tsx"
+  ],
+  "agent_id": "claude-sonnet-4-6",
+  "agent_role": "",
+  "runtime": "claude-code",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed_by": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "completed_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T23:29:12.744Z",
+  "updated_at": "2026-05-20T23:29:31.499Z"
+}

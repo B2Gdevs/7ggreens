@@ -63,11 +63,21 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
     };
   }, [open]);
 
-  // Build checkout URL for a single item (first item in cart for now)
+  // Build checkout URL.
+  // When the cart has exactly one item, use the legacy single-item query params
+  // so the existing CheckoutForm picks it up cleanly.
+  // When the cart has multiple items, pass cart=1 so the checkout page reads
+  // from the cart store (client-side). The checkout page shows the first item's
+  // price for the Square payment and notes multi-item in the order summary.
   const primaryItem = items[0];
-  const checkoutHref = primaryItem
-    ? `/store/checkout?id=${encodeURIComponent(primaryItem.id)}&name=${encodeURIComponent(primaryItem.name)}&price=${primaryItem.priceCents}${primaryItem.variation ? `&variation=${encodeURIComponent(primaryItem.variation)}` : ""}`
-    : "/store";
+  const checkoutHref = (() => {
+    if (!primaryItem) return "/store";
+    if (items.length === 1) {
+      return `/store/checkout?id=${encodeURIComponent(primaryItem.id)}&name=${encodeURIComponent(primaryItem.name)}&price=${primaryItem.priceCents}${primaryItem.variation ? `&variation=${encodeURIComponent(primaryItem.variation)}` : ""}`;
+    }
+    // Multi-item: pass cart=1 flag; checkout page reads Zustand store for summary
+    return `/store/checkout?cart=1`;
+  })();
 
   return (
     <>

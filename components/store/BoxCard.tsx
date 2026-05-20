@@ -1,20 +1,22 @@
 /**
  * BoxCard — store browse product card.
  *
- * Renders a single box product with name, price, item list, and
- * a CTA that routes to /store/checkout with item searchParams.
- * Shows a "Live" badge when the data source is Square; "Preview" when fallback.
+ * Primary CTA: AddToCartButton (adds to cart store; user checks out from CartDrawer).
+ * Secondary CTA: "Buy now" link — direct to checkout for single-item fast path.
  *
  * VCS: data-cid applied to the article root so DevPanel can
  * address each card by box id.
  *
- * Task: UPAEC-T-272-02 / 272-04
+ * Task: UPAEC-T-272-11 (add-to-cart UX) / 272-02 / 272-04
  */
 
+"use client";
+
 import Link from "next/link";
-import { Check, Leaf } from "lucide-react";
+import { Check, Leaf, Zap } from "lucide-react";
 import type { BoxItem } from "@/lib/square/client";
 import { cid } from "@/lib/vcs/cid";
+import { AddToCartButton } from "@/components/store/AddToCartButton";
 
 interface BoxCardProps {
   box: BoxItem;
@@ -28,6 +30,9 @@ export function BoxCard({ box, source, index }: BoxCardProps) {
   const accentClass = isStarter
     ? "bg-[var(--color-sage-deep)]"
     : "bg-[var(--color-tan-deep)]";
+
+  // Unused but kept for future stagger CSS use
+  void index;
 
   return (
     <article
@@ -94,19 +99,31 @@ export function BoxCard({ box, source, index }: BoxCardProps) {
         ))}
       </ul>
 
-      {/* CTA */}
-      <div className="mt-10 flex items-center justify-between gap-4">
+      {/* CTA row — primary: Add to cart; secondary: Buy now */}
+      <div
+        data-cid={cid(`store.browse.box.${box.id}.cta`)}
+        className="mt-10 flex flex-wrap items-center gap-3"
+      >
+        {/* Primary: scalable add-to-cart pattern */}
+        <AddToCartButton
+          id={box.id}
+          name={box.name}
+          priceCents={box.priceCents}
+          priceDisplay={box.priceDisplay}
+          variant="primary"
+          size="lg"
+        />
+
+        {/* Secondary: fast-path single-item checkout */}
         <Link
           href={`/store/checkout?id=${encodeURIComponent(box.id)}&name=${encodeURIComponent(box.name)}&price=${box.priceCents}`}
-          className="btn-primary"
-          aria-label={`Order ${box.name} — ${box.priceDisplay}`}
-          data-cid={cid(`store.browse.box.${box.id}.cta`)}
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border-strong)] px-5 py-2.5 text-sm font-medium text-[var(--color-charcoal-soft)] hover:bg-[var(--color-cream-soft)] transition-colors"
+          aria-label={`Buy ${box.name} now — skip to checkout`}
+          data-cid={cid(`store.browse.box.${box.id}.buy-now`)}
         >
-          Order This Box
+          <Zap size={13} aria-hidden="true" />
+          Buy now
         </Link>
-        <span className="text-[10px] uppercase tracking-widest text-[var(--color-charcoal-muted)]">
-          {source === "square" ? "Square checkout" : "Preview pricing"}
-        </span>
       </div>
     </article>
   );
