@@ -1,0 +1,26 @@
+{
+  "id": "10-04",
+  "phase": "10",
+  "status": "planned",
+  "goal": "ADMIN-01+02: Payload CMS admin audit — verify all collections (Products, Partners, DeliveryZones, Events, Posts, Subscribers, Orders) are accessible in admin panel; configure role-based access: operator admin (full CRUD) vs partner read-only (own orders/inventory only)",
+  "type": "",
+  "keywords": "admin, payload, rbac, roles",
+  "depends": ["10-01", "10-02"],
+  "commands": [],
+  "files": [
+    "payload.config.ts",
+    "lib/access/roles.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

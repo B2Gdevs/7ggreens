@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<state project="7greens" schema="1">
+<state project="upaec" schema="1">
   <status>active</status>
   <milestone>v1</milestone>
   <current-phase>02</current-phase>
@@ -12,4 +12,5 @@
     <entry agent="unknown" at="2026-04-30T16:48:09.456Z">7greens project initialized: PROJECT.md + REQUIREMENTS.md + ROADMAP.md + STATE.md drafted. 6 phases registered (00 cancelled, 01 active, 02-06 planned). Phase 1 tasks 01-01..05 (FOUND-*) registered. Next: /gad:plan-phase 01</entry>
     <entry agent="unknown" at="2026-04-30T16:47:27.048Z" tags="phases,cancel">Cancelled phase 00 via gad phases cancel - Bootstrap was completed via parent monorepo task global/65-01 (submodule add + workspace.yaml + research extraction)</entry>
   </state-log>
+  <sink-compiled sink="docs/7greens/planning/" at="2026-05-13T17:59:32.390Z" />
 </state>

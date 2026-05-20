@@ -1,0 +1,25 @@
+{
+  "id": "09-04",
+  "phase": "09",
+  "status": "planned",
+  "goal": "PART-05: 2S Ranch + Southern Sunny Acres pilot — configure embeddedStoreSettings for both partners, verify widget renders on a test page, confirm orders route to centralized order management; document partner onboarding steps in .planning/notes/partner-onboarding.md",
+  "type": "",
+  "keywords": "2s ranch, southern sunny acres, pilot, partner",
+  "depends": ["09-02", "09-03"],
+  "commands": [],
+  "files": [
+    ".planning/notes/partner-onboarding.md"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

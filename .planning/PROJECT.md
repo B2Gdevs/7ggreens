@@ -1,8 +1,10 @@
-# 7Greens (UPAEC)
+# UPAEC — Uncle Paul's Agritourism & Educational Corp
+
+> **Note:** "7Greens" was the prior consumer brand label. The project is now officially **UPAEC**. Brand copy and domain names TBD with operator; "7Greens" references in historical code/docs are legacy.
 
 ## What This Is
 
-A brand + commerce landing site for **Uncle Paul's Agritourism & Educational Corp (UPAEC)**, a chemical-free / non-GMO produce farm in Tyler, Texas serving East Texas and Dallas–Fort Worth under the **7Greens** consumer brand. Two routes for v1: home (story + boxes preview) and /boxes (full catalog + order flow). Lives at `sites/7greens/` as a git submodule of the parent monorepo and ships independently to Vercel.
+A brand + commerce site for **Uncle Paul's Agritourism & Educational Corp (UPAEC)**, a chemical-free / non-GMO produce farm in Tyler, Texas serving East Texas and Dallas–Fort Worth. Covers box/CSA ordering, delivery routing, partner marketplace embedding, and farm events. Lives at `sites/upaec/` as a git submodule of the parent monorepo and ships independently to Vercel.
 
 ## Core Value
 
@@ -24,16 +26,16 @@ A brand + commerce landing site for **Uncle Paul's Agritourism & Educational Cor
 - [ ] Vercel deployment with custom domain, env management, BotID + Vercel Analytics
 - [ ] Mobile-responsive across all routes
 
-### Out of Scope (v1)
+### Out of Scope (v1 original; now superseded by stakeholder v2 requirements)
 
-- User authentication / accounts — orders submit via Square Customers; no login required
-- Subscription / CSA model — explicit anti-feature; UPAEC's differentiator is *no* subscription
+- ~~Subscription / CSA model~~ → **NOW IN SCOPE** (stakeholder Phase 1 requirement; phases 07+)
+- ~~Pickup-point geography UI (live zip lookup)~~ → **NOW IN SCOPE** (stakeholder Phase 2; phase 08)
+- ~~Blog / events calendar~~ → **NOW IN SCOPE** (stakeholder Phase 4; phase 10)
+- User authentication / accounts — Square Customer creation sufficient for v1; accounts deferred
 - Wholesale portal — separate phase if/when wholesale tier defined
-- Pickup-point geography UI (live zip lookup) — defer until pickup network is finalized; v1 ships static list
 - Multi-language — English only
-- Blog / events calendar — narrative integrated into Home; full content section later
-- Real-time inventory — produce is picked after pre-order, so the site doesn't need stock tracking
-- Wholesale ordering / chef portal — flagged as v2 candidate if demand surfaces
+- Real-time inventory — produce is picked after pre-order
+- Mobile native app — web-first
 
 ## Context
 
@@ -55,8 +57,53 @@ A brand + commerce landing site for **Uncle Paul's Agritourism & Educational Cor
 - **Hosting**: Vercel (Fluid Compute) — operator choice; aligns with Next.js + AI Gateway + BotID + Analytics
 - **Commerce**: Square SDK (Customers + Orders + Payments) — operator choice; UPAEC already uses Square downstream
 - **VCS mandate**: Visual Context System on every visual surface (memory: "Visual Context System mandatory for all GUI"). Source: `packages/visual-context` in the parent monorepo, consumed via pnpm workspace today; npm-publish on parallel track to enable future standalone-repo split (decision below).
-- **Repo topology**: `sites/7greens/` is a submodule of `B2Gdevs/get-anything-done-monorepo`. Has its own remote `B2Gdevs/7ggreens`, ships to Vercel independently, but workspace-links to monorepo packages.
+- **Repo topology**: `sites/upaec/` is a submodule of `B2Gdevs/get-anything-done-monorepo`. Has its own remote `B2Gdevs/7ggreens` (remote rename pending), ships to Vercel independently, but workspace-links to monorepo packages.
 - **No public npm publishing of GAD** (parent-monorepo decision gad-188 #1) — does not constrain gad-visual-context, which has its own publish track if/when needed.
+
+## Intended Stack (stakeholder-approved, 2026-05-20)
+
+| Layer | Choice | Notes |
+|-------|--------|-------|
+| Framework | Next.js 15 + React 19 | App Router, Node 24 LTS, Vercel deploy |
+| Styling | Tailwind CSS + shadcn/ui | Operator preference |
+| CMS / Admin | Payload CMS | Content + admin for products, partners, delivery zones, events |
+| Commerce | Shopify or custom (TBD) | Evaluate Shopify Storefront API vs own cart during Phase 7 |
+| SMS | Twilio | Order confirmations + day-before reminders |
+| Email | Resend or SendGrid | Transactional emails; decide during Phase 8 |
+| Delivery routing | Custom ZIP-to-route rules in DB | Payload collection: DeliveryZone |
+| Hosting | Vercel (Fluid Compute) | Existing choice |
+
+## Core Data Models
+
+```
+Product {
+  name, description, price,
+  subscriptionEligible, oneTimeEligible,
+  boxSizeOptions,        // e.g. ["starter","family"]
+  addOnProducts          // array of Product refs
+}
+
+Partner {
+  name, website,
+  embeddedStoreSettings  // Shopify Buy Button / Storefront API config
+}
+
+DeliveryZone {
+  zipCode, deliveryDay, cutoffTime, serviceAvailable
+}
+
+Order {
+  customer, items,
+  deliveryMethod,        // "delivery" | "pickup"
+  deliveryDate, pickupLocation
+}
+
+Event {
+  title, description,
+  startDate, endDate,
+  registrationLink
+}
+```
 
 ## Key Decisions
 

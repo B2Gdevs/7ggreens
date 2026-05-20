@@ -1,0 +1,27 @@
+{
+  "id": "09-02",
+  "phase": "09",
+  "status": "planned",
+  "goal": "PART-01: Embeddable partner widget — app/api/partner/embed/[partnerId]/route.ts returns Shopify Buy Button / Storefront API snippet; app/(partner)/embed/[partnerId]/page.tsx renders the widget iframe-safe for partner site inclusion",
+  "type": "",
+  "keywords": "embed, shopify, partner, widget",
+  "depends": ["09-01"],
+  "commands": [],
+  "files": [
+    "app/api/partner/embed/[partnerId]/route.ts",
+    "app/(partner)/embed/[partnerId]/page.tsx",
+    "lib/partner/shopify-embed.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

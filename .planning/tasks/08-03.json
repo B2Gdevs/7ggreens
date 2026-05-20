@@ -1,0 +1,27 @@
+{
+  "id": "08-03",
+  "phase": "08",
+  "status": "planned",
+  "goal": "DELIV-03: Pickup scheduling UI — available pickup slots surfaced in checkout; slot data stored in Payload CMS or static config; customer selects slot during checkout flow",
+  "type": "",
+  "keywords": "pickup, scheduling, checkout",
+  "depends": ["08-01"],
+  "commands": [],
+  "files": [
+    "components/store/PickupSlotSelector.tsx",
+    "app/(store)/checkout/page.tsx",
+    "collections/PickupSlots.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

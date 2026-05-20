@@ -20,3 +20,17 @@ Thumbs.db
 
 .vercel
 *.tsbuildinfo
+
+# gad runtime WIP (never commit)
+.opencode/
+.planning/.provenance/
+.planning/.sessions/
+.planning/datasets/
+.planning/media-attachments.json
+.planning/team/workers/*/mailbox/*.failed.json
+
+# narrative (not part of website source)
+SOUL.md
+
+# Next.js auto-generated
+next-env.d.ts

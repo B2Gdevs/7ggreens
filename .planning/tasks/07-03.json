@@ -1,0 +1,28 @@
+{
+  "id": "07-03",
+  "phase": "07",
+  "status": "planned",
+  "goal": "STORE-03+04: Checkout page at app/(store)/checkout/page.tsx — delivery/pickup toggle, pickup date/slot selector, subscription (weekly/bi-weekly/monthly) vs one-time purchase radio, customer info form (name, email, phone, zip); Order data model wired (customer, items, deliveryMethod, deliveryDate, pickupLocation)",
+  "type": "",
+  "keywords": "checkout, subscription, delivery, pickup",
+  "depends": ["07-02"],
+  "commands": [],
+  "files": [
+    "app/(store)/checkout/page.tsx",
+    "components/store/DeliveryPickupToggle.tsx",
+    "components/store/SubscriptionSelector.tsx",
+    "lib/store/order-model.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

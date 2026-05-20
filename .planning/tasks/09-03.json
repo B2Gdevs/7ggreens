@@ -1,0 +1,27 @@
+{
+  "id": "09-03",
+  "phase": "09",
+  "status": "planned",
+  "goal": "PART-02+03: Centralized inventory + order management — orders from UPAEC direct and all partner channels land in one Payload CMS Orders view; inventory counts deducted across channels; admin dashboard at app/(admin)/orders/page.tsx with filter by channel/partner/status",
+  "type": "",
+  "keywords": "inventory, orders, admin, channels",
+  "depends": ["09-01", "09-02"],
+  "commands": [],
+  "files": [
+    "app/(admin)/orders/page.tsx",
+    "collections/Orders.ts",
+    "lib/inventory/deduct.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<roadmap project="7greens" schema="1">
+<roadmap project="upaec" schema="1">
   <milestone id="v1" status="active">
     <title>Initial milestone</title>
     <phase id="00" status="planned">
@@ -49,6 +49,45 @@
     <goal>Production deploy with custom domain, env management, analytics, and a real sandbox-to-prod smoke before flipping live.</goal>
     <status>planned</status>
     <depends>02,03,04,05</depends>
+  </phase>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       Stakeholder v2 phases (added 2026-05-20, GLOBAL-T-267-05)
+       Stack: Next.js 15 + React 19 + Tailwind + Payload CMS
+              + Shopify/custom commerce + Twilio + Resend/SendGrid
+       ═══════════════════════════════════════════════════════ -->
+
+  <phase id="07">
+    <title>Online Store MVP</title>
+    <goal>Full e-commerce purchase path: box-size selector, add-on items, delivery/pickup toggle, subscription AND one-time purchase, mobile-first checkout — backed by Payload CMS product catalog.</goal>
+    <status>planned</status>
+    <depends>06</depends>
+    <milestone>v2</milestone>
+  </phase>
+
+  <phase id="08">
+    <title>Delivery Routing + Notifications</title>
+    <goal>ZIP-code service checker on homepage; DeliveryZone rules showing delivery day + cutoff time; pickup scheduling; automated order-confirmation and day-before reminder emails and SMS via Twilio + Resend/SendGrid.</goal>
+    <status>planned</status>
+    <depends>07</depends>
+    <milestone>v2</milestone>
+  </phase>
+
+  <phase id="09">
+    <title>Partner Marketplace</title>
+    <goal>Enable 2S Ranch + Southern Sunny Acres (and future partners) to co-sell UPAEC produce embedded on their own sites via Shopify Buy Button / Storefront API; centralized inventory + order management across all channels.</goal>
+    <status>planned</status>
+    <depends>07</depends>
+    <milestone>v2</milestone>
+  </phase>
+
+  <phase id="10">
+    <title>Farm Events + Community</title>
+    <goal>Event calendar with registration, blog/news posts, photo galleries, and newsletter signup — all admin-manageable via Payload CMS.</goal>
+    <status>planned</status>
+    <depends>06</depends>
+    <milestone>v2</milestone>
   </phase>
 
 </roadmap>

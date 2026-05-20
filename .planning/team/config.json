@@ -1,10 +1,26 @@
 {
-  "workers": 2,
+  "workers": 4,
   "roles": [
+    "executor",
+    "executor",
     "executor",
     "executor"
   ],
   "workers_spec": [
+    {
+      "id": "w1",
+      "role": "executor",
+      "lane": "frontend",
+      "runtime": "claude-code",
+      "runtime_cmd": null
+    },
+    {
+      "id": "w2",
+      "role": "executor",
+      "lane": "commerce",
+      "runtime": "claude-code",
+      "runtime_cmd": null
+    },
     {
       "id": "g-1",
       "role": "executor",
@@ -20,14 +36,16 @@
       "runtime_cmd": "node ../../scripts/gad-opencode-trial.mjs -- run --format json --model openrouter/nvidia/nemotron-3-super-120b-a12b:free"
     }
   ],
-  "runtime": "opencode",
+  "runtime": "claude-code",
   "runtime_cmd": null,
   "autopause_threshold": 20,
   "tick_ms": 2000,
   "runtime_tick_overrides": {
-    "opencode": 2000
+    "opencode": 2000,
+    "claude-code": 2000
   },
   "created_at": "2026-05-04T22:02:30.669Z",
-  "supervisor_pid": 23256,
-  "from_profile": "7greens-pair"
+  "updated_at": "2026-05-20T00:00:00.000Z",
+  "supervisor_pid": null,
+  "from_profile": "upaec-pair"
 }

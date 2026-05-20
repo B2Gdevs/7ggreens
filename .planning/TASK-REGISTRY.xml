@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<task-registry project="7greens" schema="1">
+<task-registry project="upaec" schema="1">
   <phase id="00">
     <!-- <task id="00-01" type="..." status="planned"><goal>...</goal></task> -->
   </phase>
@@ -25,5 +25,34 @@
   </phase>
 
   <phase id="06">
+  </phase>
+
+  <phase id="07">
+    <task id="07-01" type="execute" status="planned"><goal>Scaffold Payload CMS Product collection + seed Starter/Family/add-on SKUs</goal></task>
+    <task id="07-02" type="execute" status="planned"><goal>Box-size selector + add-on grid at app/(store)/boxes/page.tsx</goal></task>
+    <task id="07-03" type="execute" status="planned"><goal>Checkout page: delivery/pickup toggle, subscription vs one-time, customer form</goal></task>
+    <task id="07-04" type="verify" status="planned"><goal>Mobile-first checkout audit at 360/768/1280px</goal></task>
+    <task id="07-05" type="execute" status="planned"><goal>Order submission API + confirmation page + confirmation email</goal></task>
+  </phase>
+
+  <phase id="08">
+    <task id="08-01" type="execute" status="planned"><goal>Payload CMS DeliveryZone collection + admin panel + seed initial ZIP ranges</goal></task>
+    <task id="08-02" type="execute" status="planned"><goal>ZIP-code checker on homepage (app/api/zip-check/route.ts + ZipChecker component)</goal></task>
+    <task id="08-03" type="execute" status="planned"><goal>Pickup scheduling UI — slot selector in checkout</goal></task>
+    <task id="08-04" type="execute" status="planned"><goal>Automated notifications: confirmation email + day-before reminder email + SMS (Twilio) via Vercel Cron</goal></task>
+  </phase>
+
+  <phase id="09">
+    <task id="09-01" type="execute" status="planned"><goal>Payload CMS Partner collection + admin panel; seed 2S Ranch + Southern Sunny Acres</goal></task>
+    <task id="09-02" type="execute" status="planned"><goal>Embeddable partner widget (Shopify Buy Button / Storefront API)</goal></task>
+    <task id="09-03" type="execute" status="planned"><goal>Centralized inventory + order management dashboard across channels</goal></task>
+    <task id="09-04" type="verify" status="planned"><goal>2S Ranch + Southern Sunny Acres pilot integration smoke test</goal></task>
+  </phase>
+
+  <phase id="10">
+    <task id="10-01" type="execute" status="planned"><goal>Payload CMS Event collection + event calendar + event detail pages</goal></task>
+    <task id="10-02" type="execute" status="planned"><goal>Blog/news posts + photo galleries via Payload CMS</goal></task>
+    <task id="10-03" type="execute" status="planned"><goal>Newsletter signup form + API route + Resend/SendGrid list integration</goal></task>
+    <task id="10-04" type="verify" status="planned"><goal>Payload CMS admin audit + role-based access: operator admin vs partner read-only</goal></task>
   </phase>
 </task-registry>

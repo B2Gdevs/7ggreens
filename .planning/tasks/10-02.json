@@ -1,0 +1,28 @@
+{
+  "id": "10-02",
+  "phase": "10",
+  "status": "planned",
+  "goal": "EVT-03+04: Blog/news and photo galleries — Payload CMS Post collection (title, slug, body, publishedAt, heroImage, tags); blog index at app/(community)/blog/page.tsx; post page at app/(community)/blog/[slug]/page.tsx; gallery component ComponentPhotoGallery.tsx reused across events + posts",
+  "type": "",
+  "keywords": "blog, posts, gallery, photos, payload",
+  "depends": ["10-01"],
+  "commands": [],
+  "files": [
+    "collections/Posts.ts",
+    "app/(community)/blog/page.tsx",
+    "app/(community)/blog/[slug]/page.tsx",
+    "components/community/PhotoGallery.tsx"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

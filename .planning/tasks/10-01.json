@@ -1,0 +1,28 @@
+{
+  "id": "10-01",
+  "phase": "10",
+  "status": "planned",
+  "goal": "EVT-01+02+06: Payload CMS Event collection (title, description, startDate, endDate, registrationLink, photoGallery); event calendar page at app/(community)/events/page.tsx listing upcoming events; event detail page at app/(community)/events/[slug]/page.tsx with registration link",
+  "type": "",
+  "keywords": "events, calendar, payload, community",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "collections/Events.ts",
+    "app/(community)/events/page.tsx",
+    "app/(community)/events/[slug]/page.tsx",
+    "components/community/EventCard.tsx"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

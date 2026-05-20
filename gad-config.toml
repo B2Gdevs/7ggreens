@@ -1,4 +1,5 @@
-# 7Greens — canonical GAD config for this submodule.
+# UPAEC — canonical GAD config for this submodule.
+# (Uncle Paul's Agritourism & Educational Corp; 7Greens is the consumer brand.)
 # Mirrored to .planning/config.json for compatibility.
 
 [planning]
@@ -16,14 +17,14 @@ nyquist_validation = true
 auto_advance = true
 
 [project]
-id = "7greens"
-name = "7Greens (UPAEC)"
+id = "upaec"
+name = "Uncle Paul's Agritourism & Educational Corp (UPAEC)"
 remote = "https://github.com/B2Gdevs/7ggreens.git"
 parent_monorepo = "https://github.com/B2Gdevs/get-anything-done-monorepo.git"
-parent_planning_root = "sites/7greens"
+parent_planning_root = "sites/upaec"
 
 [[planning.roots]]
-id = "7greens"
+id = "upaec"
 path = "."
 planningDir = ".planning"
 discover = false

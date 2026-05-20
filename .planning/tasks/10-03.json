@@ -1,0 +1,27 @@
+{
+  "id": "10-03",
+  "phase": "10",
+  "status": "planned",
+  "goal": "EVT-05: Newsletter signup — form component NewsletterSignup.tsx; app/api/newsletter/route.ts adds subscriber to Resend/SendGrid list; inline placement on homepage, events page, and site footer; Payload CMS Subscribers collection for offline backup",
+  "type": "",
+  "keywords": "newsletter, email, resend, signup",
+  "depends": [],
+  "commands": [],
+  "files": [
+    "components/community/NewsletterSignup.tsx",
+    "app/api/newsletter/route.ts",
+    "collections/Subscribers.ts"
+  ],
+  "agent_id": "",
+  "agent_role": "",
+  "runtime": "",
+  "model_profile": "",
+  "resolved_model": "",
+  "skill": "",
+  "claimed": false,
+  "claimed_at": "",
+  "lease_expires_at": "",
+  "resolution": "",
+  "created_at": "2026-05-20T00:00:00.000Z",
+  "updated_at": "2026-05-20T00:00:00.000Z"
+}

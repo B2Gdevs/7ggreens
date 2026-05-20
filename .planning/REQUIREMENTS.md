@@ -1,4 +1,4 @@
-# Requirements: 7Greens (UPAEC)
+# Requirements: UPAEC — Uncle Paul's Agritourism & Educational Corp
 
 **Defined:** 2026-04-30
 **Core Value:** Order a flexible vegetable box from a farm you can trust — no membership, no commitment, real cold-chain.
@@ -55,9 +55,53 @@
 - [ ] **INFRA-05**: Square sandbox environment used in `preview`; production credentials in `production` only
 - [ ] **INFRA-06**: Production smoke test: place a sandbox order end-to-end, verify Square dashboard shows Customer + Order
 
-## v2 Requirements
+## v2 Requirements — Stakeholder Phase 1-4 Expansion (added 2026-05-20)
 
-Deferred to future release. Tracked but not in current roadmap.
+These supersede the "out of scope v1" classifications. Phases 07-10 in ROADMAP.xml.
+
+### Online Store MVP (Phase 07)
+
+- [ ] **STORE-01**: Box-size selector — Starter / Family / Custom (CSA) with price + item-count display
+- [ ] **STORE-02**: Add-on/aggregate items selectable from product grid with per-item quantity input
+- [ ] **STORE-03**: Delivery OR pickup toggle at checkout; pickup date/slot selector
+- [ ] **STORE-04**: Subscription (weekly / bi-weekly / monthly) AND one-time purchase path
+- [ ] **STORE-05**: Mobile-first checkout flow (360px → 768px → 1280px clean)
+- [ ] **STORE-06**: Payload CMS product collection — Product schema as specified in PROJECT.md
+
+### Delivery Routing + Notifications (Phase 08)
+
+- [ ] **DELIV-01**: Homepage ZIP-code checker — `app/api/zip-check/route.ts` validates service availability
+- [ ] **DELIV-02**: On valid ZIP: show assigned delivery day + order cutoff time (from DeliveryZone collection)
+- [ ] **DELIV-03**: Pickup scheduling UI with available slots
+- [ ] **DELIV-04**: Automated order-confirmation email (Resend/SendGrid) on order placement
+- [ ] **DELIV-05**: Day-before delivery reminder email + SMS (Twilio) via cron job
+- [ ] **DELIV-06**: Payload CMS DeliveryZone collection admin panel
+
+### Partner Marketplace (Phase 09)
+
+- [ ] **PART-01**: Partner co-sell embed — Shopify Buy Button / Storefront API widget embeddable on partner sites
+- [ ] **PART-02**: Centralized inventory management across UPAEC direct + partner channels
+- [ ] **PART-03**: Centralized order management dashboard — orders from all channels in one view
+- [ ] **PART-04**: Partner onboarding admin (Payload CMS Partner collection)
+- [ ] **PART-05**: 2S Ranch + Southern Sunny Acres pilot integration
+
+### Farm Events / Community (Phase 10)
+
+- [ ] **EVT-01**: Event calendar page with upcoming farm events
+- [ ] **EVT-02**: Event registration flow (title, description, date, slots, registration link)
+- [ ] **EVT-03**: Blog / news posts via Payload CMS
+- [ ] **EVT-04**: Photo galleries (farm tours, harvest, community)
+- [ ] **EVT-05**: Newsletter signup (Resend/SendGrid list)
+- [ ] **EVT-06**: Admin: Payload CMS Event + Post collections
+
+### Admin / CMS Cross-cutting
+
+- [ ] **ADMIN-01**: Payload CMS admin panel covers: products, partners, delivery zones, events, blog posts
+- [ ] **ADMIN-02**: Role-based access: operator admin vs partner read-only
+
+---
+
+## v1 Requirements (original scope)
 
 ### Wholesale
 

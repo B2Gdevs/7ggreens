@@ -21,11 +21,11 @@
     "max_discuss_passes": 3
   },
   "project": {
-    "id": "7greens",
-    "name": "7Greens (UPAEC)",
+    "id": "upaec",
+    "name": "Uncle Paul's Agritourism & Educational Corp (UPAEC)",
     "remote": "https://github.com/B2Gdevs/7ggreens.git",
     "parent_monorepo": "https://github.com/B2Gdevs/get-anything-done-monorepo.git",
-    "parent_planning_root": "sites/7greens"
+    "parent_planning_root": "sites/upaec"
   },
   "search_gitignored": false,
   "brave_search": false,
@@ -57,7 +57,7 @@
     "conventionsPaths": [],
     "sub_repos": [
       {
-        "id": "7greens",
+        "id": "upaec",
         "path": ".",
         "planningDir": ".planning",
         "enabled": true
