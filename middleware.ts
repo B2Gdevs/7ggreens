@@ -19,19 +19,25 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// Routes that require a signed-in Clerk session
+// IMPORTANT: `clerkMiddleware()` validates the publishable key when it runs on
+// each request and throws "Missing publishableKey" BEFORE any callback guard.
+// So the no-key branch must avoid calling clerkMiddleware ENTIRELY — we export
+// a plain passthrough instead. The store/checkout/Square paths need no auth;
+// auth is additive (only /account and /orders use it when Clerk is configured).
+const CLERK_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+// Routes that require a signed-in Clerk session (only enforced when configured).
 const isProtected = createRouteMatcher(["/account(.*)", "/orders(.*)"]);
 
-export default clerkMiddleware(async (auth, req: NextRequest) => {
-  // No-op: Clerk keys absent — let every request through
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-    return NextResponse.next();
-  }
+const passthrough = (_req: NextRequest) => NextResponse.next();
 
-  if (isProtected(req)) {
-    await auth.protect();
-  }
-});
+export default CLERK_KEY
+  ? clerkMiddleware(async (auth, req: NextRequest) => {
+      if (isProtected(req)) {
+        await auth.protect();
+      }
+    })
+  : passthrough;
 
 // Static matcher — must be compile-time constant for Next.js/Turbopack.
 // The runtime key check above handles "Clerk not configured" gracefully.
