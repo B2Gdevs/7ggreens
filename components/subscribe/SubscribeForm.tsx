@@ -73,6 +73,15 @@ interface SubscribeFormProps {
   plans: SubscriptionPlanOption[];
   plansConfigured: boolean;
   onCancel?: () => void;
+  /**
+   * Square Application ID — passed as prop from server component so checkout
+   * works whether Vercel has NEXT_PUBLIC_SQUARE_APPLICATION_ID or SQUARE_APPLICATION_ID.
+   */
+  squareAppId?: string;
+  /** Square Location ID — same resilience pattern as squareAppId */
+  squareLocationId?: string;
+  /** "sandbox" | "production" — controls which Square CDN script loads */
+  squareEnvironment?: "sandbox" | "production";
 }
 
 // ── Status machine ────────────────────────────────────────────────────────────
@@ -88,7 +97,14 @@ type Status =
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export function SubscribeForm({ plans, plansConfigured, onCancel }: SubscribeFormProps) {
+export function SubscribeForm({
+  plans,
+  plansConfigured,
+  onCancel,
+  squareAppId,
+  squareLocationId,
+  squareEnvironment,
+}: SubscribeFormProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cardInstanceRef = useRef<any>(null);
@@ -99,8 +115,11 @@ export function SubscribeForm({ plans, plansConfigured, onCancel }: SubscribeFor
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
 
-  const appId = process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID ?? "";
-  const locationId = process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID ?? "";
+  // Resolve from props first (server-passed — works with any Vercel var name),
+  // then fall back to the NEXT_PUBLIC_ env vars (set correctly in .env.local).
+  const appId = squareAppId ?? process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID ?? "";
+  const locationId = squareLocationId ?? process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID ?? "";
+  const sqEnv = squareEnvironment ?? (process.env.NEXT_PUBLIC_SQUARE_ENVIRONMENT === "production" ? "production" : "sandbox");
 
   const selectedPlan = plans[selectedPlanIndex] ?? plans[0];
 
@@ -114,7 +133,7 @@ export function SubscribeForm({ plans, plansConfigured, onCancel }: SubscribeFor
     setStatus({ type: "loading-sdk" });
 
     const scriptSrc =
-      process.env.NEXT_PUBLIC_SQUARE_ENVIRONMENT === "production"
+      sqEnv === "production"
         ? "https://web.squarecdn.com/v1/square.js"
         : "https://sandbox.web.squarecdn.com/v1/square.js";
 

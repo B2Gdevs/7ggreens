@@ -32,7 +32,18 @@ function centsToDollars(cents: number): string {
   return `$${(cents / 100).toFixed(cents % 100 === 0 ? 0 : 2)}`;
 }
 
-export function CartCheckoutView() {
+interface CartCheckoutViewProps {
+  /** Passed from the server component so checkout works with any Vercel var name */
+  squareAppId?: string;
+  squareLocationId?: string;
+  squareEnvironment?: "sandbox" | "production";
+}
+
+export function CartCheckoutView({
+  squareAppId,
+  squareLocationId,
+  squareEnvironment,
+}: CartCheckoutViewProps = {}) {
   const items = useCartStore((s) => s.items);
   const total = useCartTotal();
 
@@ -177,7 +188,12 @@ export function CartCheckoutView() {
           data-cid={cid("checkout.cart-view.form")}
           className="rounded-[28px] border border-[var(--color-border)] bg-[var(--color-cream)] p-8 md:p-10 shadow-sm"
         >
-          <CheckoutForm item={cartItem} />
+          <CheckoutForm
+            item={cartItem}
+            squareAppId={squareAppId}
+            squareLocationId={squareLocationId}
+            squareEnvironment={squareEnvironment}
+          />
         </div>
       </div>
     </div>

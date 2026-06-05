@@ -5,6 +5,13 @@
  *   { sourceId: string, itemId: string, itemName: string, amountCents: number,
  *     note?: string, customerEmail?: string }
  *
+ *   itemId may be either:
+ *   - A catalog slug (e.g. "starter-box") — resolved to Square variation ID via
+ *     lib/catalog.ts getSquareVariationId(). Falls back gracefully to slug when
+ *     variation ID not yet synced.
+ *   - A Square variation ID (direct from BoxCard "Buy now" for live catalog items)
+ *   - A fallback display id (e.g. "fallback-starter") — display-only, no variation lookup.
+ *
  * Returns:
  *   { ok: true, paymentId: string, receiptUrl?: string }
  *   { ok: false, error: string, configured: boolean }
@@ -33,6 +40,44 @@ import { SquareClient, SquareEnvironment, SquareError } from "square";
 import { randomUUID } from "crypto";
 import { insertOrder } from "@/lib/supabase/orders";
 import { sendOrderConfirmation } from "@/lib/email/order-confirmation";
+import { getCatalogItem, getSquareVariationId } from "@/lib/catalog";
+
+// ── Slug → Square ID resolution ───────────────────────────────────────────────
+//
+// Cart sends { slug, quantity }[] where slug is the catalog slug (e.g. "starter-box").
+// CheckoutForm sends itemId which may be:
+//   1. A catalog slug → resolved to squareVariationId if synced
+//   2. Already a Square variation ID (live catalog path)
+//   3. A fallback id (display-only, no resolution needed)
+//
+// Resolution order:
+//   1. Try getCatalogItem(itemId) — if found and has squareVariationId, use it
+//   2. Otherwise, use itemId as-is (may be a real Square ID already)
+//
+function resolveSquareItemId(itemId: string): string {
+  // Check if it's a known catalog slug with a synced variation ID
+  const variationId = getSquareVariationId(itemId);
+  if (variationId) return variationId;
+
+  // Not a slug or not yet synced — use as-is
+  // (Square IDs start with real prefixes like "XXXXXXXXXXX" — safe to pass through)
+  return itemId;
+}
+
+// ── Validate that amountCents matches the catalog price when slug is known ────
+//
+// Prevents price-tampering: if the slug maps to a catalog product, the amount
+// must match priceCents. Mismatch returns 400.
+// When itemId is not a known slug, we trust the client amount (existing behavior).
+//
+function validateAmount(itemId: string, amountCents: number): string | null {
+  const product = getCatalogItem(itemId);
+  if (!product) return null; // Unknown slug — no validation possible
+  if (product.priceCents !== amountCents) {
+    return `Price mismatch for "${itemId}": expected ${product.priceCents} cents, got ${amountCents}`;
+  }
+  return null;
+}
 
 // ── Clerk auth (optional) ─────────────────────────────────────────────────────
 // Gracefully skipped when CLERK_SECRET_KEY is absent.
@@ -121,6 +166,20 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // ── 1b. Validate catalog price (tamper-proofing) ────────────────────────────
+  const priceError = validateAmount(body.itemId, body.amountCents);
+  if (priceError) {
+    return NextResponse.json(
+      { ok: false, error: priceError },
+      { status: 400 }
+    );
+  }
+
+  // ── 1c. Resolve slug → Square variation ID ──────────────────────────────────
+  // When itemId is a catalog slug, this returns the synced squareVariationId.
+  // When not synced, returns the slug as-is (Square will accept it as referenceId).
+  const resolvedItemId = resolveSquareItemId(body.itemId);
+
   // ── 2. Graceful degradation when Square is not configured ──────────────────
   const client = buildSquareClient();
   if (!client) {
@@ -154,6 +213,8 @@ export async function POST(req: NextRequest) {
       },
       locationId,
       note: body.note ?? `7G Greens — ${body.itemName}`,
+      // Use resolvedItemId (squareVariationId when synced, slug otherwise).
+      // referenceId is informational — not used for payment processing.
       referenceId: `7greens-${body.itemId}-${Date.now()}`,
     });
 

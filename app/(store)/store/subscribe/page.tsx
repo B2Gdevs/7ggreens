@@ -23,6 +23,7 @@ import { ArrowLeft, Leaf, RefreshCw, ShieldCheck, Truck } from "lucide-react";
 import { listSubscriptionPlans } from "@/lib/square/subscriptions";
 import { SubscribeForm } from "@/components/subscribe/SubscribeForm";
 import { cid } from "@/lib/vcs/cid";
+import { resolveSquareClientConfig } from "@/lib/square/config";
 
 export const metadata: Metadata = {
   title: "Subscribe",
@@ -57,7 +58,10 @@ const HOW_IT_WORKS = [
 ] as const;
 
 export default async function SubscribePage() {
-  const { plans, configured } = await listSubscriptionPlans();
+  const [{ plans, configured }, squareCfg] = await Promise.all([
+    listSubscriptionPlans(),
+    Promise.resolve(resolveSquareClientConfig()),
+  ]);
 
   return (
     <>
@@ -153,6 +157,9 @@ export default async function SubscribePage() {
             <SubscribeForm
               plans={plans}
               plansConfigured={configured}
+              squareAppId={squareCfg.appId}
+              squareLocationId={squareCfg.locationId}
+              squareEnvironment={squareCfg.environment}
             />
           </div>
         </div>

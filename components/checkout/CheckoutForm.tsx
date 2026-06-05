@@ -59,6 +59,24 @@ export interface CheckoutItem {
 interface CheckoutFormProps {
   item: CheckoutItem;
   onCancel?: () => void;
+  /**
+   * Square Application ID for the Web Payments SDK.
+   * Passed as a prop from the server component so checkout works whether
+   * the Vercel env var is named NEXT_PUBLIC_SQUARE_APPLICATION_ID or
+   * SQUARE_APPLICATION_ID (the wrong-prefix variant found in production).
+   * Falls back to process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID when absent.
+   */
+  squareAppId?: string;
+  /**
+   * Square Location ID for the Web Payments SDK.
+   * Same resilience pattern as squareAppId.
+   */
+  squareLocationId?: string;
+  /**
+   * "sandbox" | "production" — controls which Square CDN script loads.
+   * Defaults to "sandbox" when absent.
+   */
+  squareEnvironment?: "sandbox" | "production";
 }
 
 // ── Status machine ────────────────────────────────────────────────────────
@@ -74,14 +92,23 @@ type Status =
 
 // ── Component ─────────────────────────────────────────────────────────────
 
-export function CheckoutForm({ item, onCancel }: CheckoutFormProps) {
+export function CheckoutForm({
+  item,
+  onCancel,
+  squareAppId,
+  squareLocationId,
+  squareEnvironment,
+}: CheckoutFormProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cardInstanceRef = useRef<any>(null);
   const [status, setStatus] = useState<Status>({ type: "idle" });
 
-  const appId = process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID ?? "";
-  const locationId = process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID ?? "";
+  // Resolve from props first (server-passed — works with any Vercel var name),
+  // then fall back to the NEXT_PUBLIC_ env vars (set correctly in .env.local).
+  const appId = squareAppId ?? process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID ?? "";
+  const locationId = squareLocationId ?? process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID ?? "";
+  const sqEnv = squareEnvironment ?? (process.env.NEXT_PUBLIC_SQUARE_ENVIRONMENT === "production" ? "production" : "sandbox");
 
   // ── Load Square Web Payments SDK ────────────────────────────────────────
   useEffect(() => {
@@ -93,7 +120,7 @@ export function CheckoutForm({ item, onCancel }: CheckoutFormProps) {
     setStatus({ type: "loading-sdk" });
 
     const scriptSrc =
-      process.env.NEXT_PUBLIC_SQUARE_ENVIRONMENT === "production"
+      sqEnv === "production"
         ? "https://web.squarecdn.com/v1/square.js"
         : "https://sandbox.web.squarecdn.com/v1/square.js";
 

@@ -28,6 +28,7 @@ import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { CartCheckoutView } from "@/components/checkout/CartCheckoutView";
 import { cid } from "@/lib/vcs/cid";
+import { resolveSquareClientConfig } from "@/lib/square/config";
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -55,6 +56,10 @@ function centsToDollars(cents: number): string {
 export default async function CheckoutPage({ searchParams }: CheckoutPageProps) {
   const params = await searchParams;
 
+  // Resolve Square client config server-side so it works regardless of whether
+  // Vercel has NEXT_PUBLIC_SQUARE_APPLICATION_ID or SQUARE_APPLICATION_ID set.
+  const squareCfg = resolveSquareClientConfig();
+
   // ── Multi-item cart checkout ─────────────────────────────────────────────────
   // Delegate to client component that reads the Zustand cart store.
   if (params.cart === "1") {
@@ -67,7 +72,11 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
           Skip to checkout
         </a>
         <div id="checkout-main" data-cid={cid("checkout.page")}>
-          <CartCheckoutView />
+          <CartCheckoutView
+            squareAppId={squareCfg.appId}
+            squareLocationId={squareCfg.locationId}
+            squareEnvironment={squareCfg.environment}
+          />
         </div>
       </>
     );
@@ -183,7 +192,12 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
             data-cid={cid("checkout.page.form")}
             className="rounded-[28px] border border-[var(--color-border)] bg-[var(--color-cream)] p-8 md:p-10 shadow-sm"
           >
-            <CheckoutForm item={item} />
+            <CheckoutForm
+              item={item}
+              squareAppId={squareCfg.appId}
+              squareLocationId={squareCfg.locationId}
+              squareEnvironment={squareCfg.environment}
+            />
           </div>
         </div>
       </div>
