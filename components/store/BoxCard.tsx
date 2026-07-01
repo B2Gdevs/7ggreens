@@ -4,8 +4,8 @@
  * Primary CTA: AddToCartButton (adds to cart store; user checks out from CartDrawer).
  * Secondary CTA: "Buy now" link — direct to checkout for single-item fast path.
  *
- * VCS: data-cid applied to the article root so DevPanel can
- * address each card by box id.
+ * VCS: data-cid applied to the article root so the canonical
+ * ContextSheet inspector can address each card by box id.
  *
  * Task: UPAEC-T-272-11 (add-to-cart UX) / 272-02 / 272-04
  */

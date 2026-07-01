@@ -3,8 +3,8 @@ import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
 import { SiteVisualContextProvider } from "@/components/providers/SiteVisualContextProvider";
-import { SiteDevIdProvider } from "@/components/providers/SiteDevIdProvider";
 import { ClerkProviderWrapper } from "@/components/providers/ClerkProviderWrapper";
+import { VcsPanel } from "@/components/VcsPanel";
 import { structuredData } from "./structured-data";
 import "./globals.css";
 
@@ -88,15 +88,14 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <ClerkProviderWrapper>
           <SiteVisualContextProvider>
-            <SiteDevIdProvider>
-              <SiteHeader />
-              <main className="flex-1" data-cid="site.main">
-                {children}
-              </main>
-              <SiteFooter />
-            </SiteDevIdProvider>
+            <SiteHeader />
+            <main className="flex-1" data-cid="site.main">
+              {children}
+            </main>
+            <SiteFooter />
           </SiteVisualContextProvider>
         </ClerkProviderWrapper>
+        <VcsPanel />
       </body>
     </html>
   );

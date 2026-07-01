@@ -26,6 +26,18 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@experience/vcs-sheet/react": [
+        "../../packages/vcs-sheet/src/react.tsx"
+      ],
+      "@experience/vcs-sheet": [
+        "../../packages/vcs-sheet/src/index.ts"
+      ],
+      "react": [
+        "./node_modules/@types/react"
+      ],
+      "react/jsx-runtime": [
+        "./node_modules/@types/react/jsx-runtime"
       ]
     }
   },

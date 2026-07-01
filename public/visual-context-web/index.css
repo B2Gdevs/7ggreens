@@ -1,0 +1,954 @@
+/*
+ * @gad/visual-context-web — overlay styles
+ * Palette CSS vars use --fg, --accent, --bg, --bg2, --border so consumers
+ * can theme via :root on their own page. Defaults mirror env-web's gold/dark palette.
+ *
+ * Source: vendor/get-anything-done/bin/commands/env-web.cjs (VCS layer)
+ * Reference: phase 185, task 185-01
+ */
+
+:root {
+  --vcs-bg: var(--bg, #0d0d0d);
+  --vcs-bg2: var(--bg2, #050505);
+  --vcs-card: var(--card, #1a1a1a);
+  --vcs-accent: var(--accent, #D4A017);
+  --vcs-accent-bright: var(--accent-bright, #FFD700);
+  --vcs-accent-dark: var(--accent-dark, #8C6E10);
+  --vcs-red: var(--red, #C92A2A);
+  --vcs-red-soft: var(--red-soft, rgba(201, 42, 42, 0.10));
+  --vcs-fg: var(--fg, #e8e8e8);
+  --vcs-fg-dim: var(--fg-dim, #999);
+  --vcs-border: var(--border, #1f1f1f);
+  --vcs-mono: var(--mono, ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace);
+  --vcs-panel-w: 360px;
+}
+
+/* ─── Alt+I dev mode (hover-only, no persistent decoration) ──────────────── */
+
+body.vcs-devid [data-cid] {
+  position: relative;
+  /* isolate so a child xterm canvas can't eclipse the highlight */
+  isolation: isolate;
+}
+
+body.vcs-devid [data-cid]:hover {
+  /* inset box-shadow escapes child stacking contexts that swallow outline */
+  box-shadow: inset 0 0 0 2px var(--vcs-accent-bright);
+  outline: 2px solid var(--vcs-accent-bright);
+  outline-offset: 1px;
+  cursor: crosshair;
+}
+
+body.vcs-devid [data-cid]:hover::after {
+  content: attr(data-cid);
+  position: absolute;
+  /* 269-06: match the toggled-cids overlay — anchor in-bounds at the element's
+     own top-right corner so overflow:hidden ancestors can't clip it and it
+     never overlaps neighbors in a higher stacking context. Was top:-10px /
+     right:-2px (pushed out of bounds + clipped). */
+  top: 0;
+  right: 0;
+  line-height: 1.4;
+  font: 0.55rem var(--vcs-mono);
+  padding: 0.05rem 0.3rem;
+  background: var(--vcs-accent-bright);
+  color: var(--vcs-bg);
+  border: 1px solid var(--vcs-accent-dark);
+  pointer-events: none;
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+/* Status badge confirming dev mode is on */
+body.vcs-devid::before {
+  content: 'DEV \00b7 alt+click to record';
+  position: fixed;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 9995;
+  font: 0.5rem var(--vcs-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  background: var(--vcs-accent-bright);
+  color: var(--vcs-bg);
+  border: 1px solid var(--vcs-accent-dark);
+  pointer-events: none;
+}
+
+/* ─── Passive listening dot ─────────────────────────────────────────────── */
+
+.vcs-listening-dot {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: 9999;
+  pointer-events: none;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  background: var(--vcs-accent-dark);
+  opacity: 0.45;
+}
+
+.vcs-listening-dot.passive {
+  background: var(--vcs-accent-dark);
+  opacity: 0.45;
+}
+
+.vcs-listening-dot.active {
+  background: var(--vcs-red);
+  opacity: 1;
+  animation: vcs-dot-pulse 1.4s infinite;
+}
+
+@keyframes vcs-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* ─── Side panel ────────────────────────────────────────────────────────── */
+
+.vcs-side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--vcs-panel-w);
+  height: 100vh;
+  border-left: 1px solid var(--vcs-accent-dark);
+  background: var(--vcs-bg2);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--vcs-mono);
+  font-size: 14px;
+  color: var(--vcs-fg);
+  z-index: 9990;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+}
+
+.vcs-side-panel.vcs-open {
+  transform: translateX(0);
+}
+
+.vcs-side-panel header {
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--vcs-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.vcs-side-panel header h2 {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--vcs-accent-bright);
+}
+
+.vcs-side-panel .vcs-clear-btn {
+  background: transparent;
+  border: 1px solid var(--vcs-accent-dark);
+  color: var(--vcs-fg-dim);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.52rem;
+  font-family: var(--vcs-mono);
+  cursor: pointer;
+}
+
+.vcs-side-panel .vcs-clear-btn:hover:not(:disabled) {
+  color: var(--vcs-red);
+  border-color: var(--vcs-red);
+}
+
+/* ─── Tag list ───────────────────────────────────────────────────────────── */
+
+.vcs-tag-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vcs-tag-list .vcs-empty-hint {
+  color: var(--vcs-fg-dim);
+  font-size: 0.65rem;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  line-height: 1.6;
+}
+
+.vcs-tag-list .vcs-empty-hint kbd {
+  background: var(--vcs-card);
+  border: 1px solid var(--vcs-accent-dark);
+  padding: 0.05rem 0.3rem;
+  color: var(--vcs-accent);
+  margin: 0 0.1rem;
+  font-family: var(--vcs-mono);
+  font-size: 0.55rem;
+}
+
+/* ─── Recording bucket (tag card) ───────────────────────────────────────── */
+
+.vcs-recording-bucket {
+  background: var(--vcs-card);
+  border: 1px solid var(--vcs-accent-dark);
+  padding: 0.45rem 0.55rem;
+  font-size: 0.66rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-family: var(--vcs-mono);
+}
+
+.vcs-recording-bucket.vcs-recording {
+  border-color: var(--vcs-red);
+  background: rgba(201, 42, 42, 0.10);
+}
+
+.vcs-recording-bucket.vcs-merging {
+  border-color: var(--vcs-accent-bright);
+  background: rgba(212, 160, 23, 0.08);
+}
+
+.vcs-recording-bucket.vcs-listening {
+  border-color: var(--vcs-accent-dark);
+  background: rgba(212, 160, 23, 0.04);
+  opacity: 0.75;
+}
+
+.vcs-recording-bucket .vcs-tag-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vcs-recording-bucket .vcs-cidlabel {
+  font-size: 0.52rem;
+  color: var(--vcs-accent-dark);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  word-break: break-all;
+  flex: 1;
+}
+
+.vcs-recording-bucket.vcs-listening .vcs-cidlabel {
+  color: var(--vcs-accent-dark);
+}
+
+.vcs-recording-bucket .vcs-ctext {
+  color: var(--vcs-accent-bright);
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.vcs-recording-bucket .vcs-pending-rec {
+  color: var(--vcs-red);
+  font-style: italic;
+}
+
+.vcs-recording-bucket.vcs-listening .vcs-pending-rec {
+  color: var(--vcs-fg-dim);
+}
+
+.vcs-recording-bucket .vcs-tag-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.vcs-recording-bucket .vcs-tag-actions button {
+  padding: 0.1rem 0.4rem;
+  font-size: 0.52rem;
+  background: transparent;
+  border: 1px solid var(--vcs-accent-dark);
+  color: var(--vcs-fg-dim);
+  font-family: var(--vcs-mono);
+  cursor: pointer;
+}
+
+.vcs-recording-bucket .vcs-tag-actions button:hover:not(:disabled) {
+  color: var(--vcs-accent);
+  border-color: var(--vcs-accent);
+}
+
+.vcs-recording-bucket .vcs-tag-actions button.vcs-danger:hover {
+  color: var(--vcs-red);
+  border-color: var(--vcs-red);
+}
+
+/* ─── Composer (phase 201) ───────────────────────────────────────────────── */
+/* Footer block inside the side panel: label, textarea, and a "copy update
+   prompt" button. Restores the per-panel composer that was stripped from
+   env-panel in 0.0.13 but never landed in the global VCP. Operator wants a
+   click-driven entrypoint to the UPDATE template alongside the Ctrl+; hotkey. */
+
+.vcs-composer {
+  border-top: 1px solid var(--vcs-border);
+  background: var(--vcs-bg2);
+  padding: 0.6rem 0.8rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--vcs-mono);
+  flex-shrink: 0;
+}
+
+.vcs-composer-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--vcs-accent-dark);
+}
+
+.vcs-composer-textarea {
+  width: 100%;
+  min-height: 3.2rem;
+  max-height: 8rem;
+  resize: vertical;
+  background: var(--vcs-card);
+  border: 1px solid var(--vcs-accent-dark);
+  color: var(--vcs-accent-bright);
+  font-family: var(--vcs-mono);
+  font-size: 0.7rem;
+  line-height: 1.45;
+  padding: 0.4rem 0.5rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.vcs-composer-textarea:focus {
+  border-color: var(--vcs-accent);
+  background: rgba(212, 160, 23, 0.04);
+}
+
+.vcs-composer-textarea::placeholder {
+  color: var(--vcs-fg-dim);
+  opacity: 0.55;
+}
+
+.vcs-composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.vcs-composer-status {
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vcs-fg-dim);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vcs-composer-status.vcs-composer-status--ok {
+  color: var(--vcs-accent);
+}
+
+.vcs-composer-status.vcs-composer-status--err {
+  color: var(--vcs-red);
+}
+
+.vcs-composer-btn {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-family: var(--vcs-mono);
+  background: rgba(212, 160, 23, 0.10);
+  border: 1px solid var(--vcs-accent);
+  color: var(--vcs-accent-bright);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.vcs-composer-btn:hover {
+  background: rgba(212, 160, 23, 0.20);
+  border-color: var(--vcs-accent-bright);
+}
+
+.vcs-composer-btn:active {
+  background: rgba(212, 160, 23, 0.30);
+}
+
+/* ─── Typewriter merge animation ────────────────────────────────────────── */
+
+.vcs-typewriter-cursor {
+  display: inline-block;
+  width: 0.4em;
+  background: var(--vcs-accent-bright);
+  animation: vcs-cursor-blink 0.85s steps(1) infinite;
+  margin-left: 0.05em;
+}
+
+.vcs-typewriter-new {
+  color: var(--vcs-accent-bright);
+  background: rgba(212, 160, 23, 0.18);
+  padding: 0 0.1em;
+  transition: background 0.6s ease;
+}
+
+.vcs-typewriter-new.vcs-settled {
+  background: transparent;
+}
+
+@keyframes vcs-cursor-blink {
+  50% { opacity: 0; }
+}
+
+/* ─── Dev hint bar ───────────────────────────────────────────────────────── */
+/* Hidden by default — only shown while body.vcs-devid (Alt+I) is active    */
+
+body:not(.vcs-devid) .vcs-devhint {
+  display: none;
+}
+
+.vcs-devhint {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  font-size: 0.55rem;
+  color: var(--vcs-fg-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  z-index: 9988;
+  pointer-events: none;
+  font-family: var(--vcs-mono);
+}
+
+.vcs-devhint kbd {
+  background: var(--vcs-card);
+  border: 1px solid var(--vcs-accent-dark);
+  padding: 0.05rem 0.3rem;
+  color: var(--vcs-accent);
+  margin: 0 0.1rem;
+  font-family: var(--vcs-mono);
+  font-size: 0.55rem;
+}
+
+/* ─── Tab bar + panes (injected by tab-host.ts, not the overlay itself) ──── */
+/* These rules live in apps/ide/src/globals.css for the IDE but must also be  */
+/* present in this overlay CSS so experience-web (and any non-IDE consumer)   */
+/* gets the correct flex layout. Without .vcs-tab-pane { flex: 1 } the panes  */
+/* collapse to their natural height and the sheet appears as a tiny nested    */
+/* card instead of filling the full side panel.                                */
+
+.vcs-tabs {
+  display: flex;
+  align-items: stretch;
+  background: var(--vcs-bg2, #050505);
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.vcs-tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--vcs-accent-dark, #8C6E10);
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.38rem 0.85rem 0.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 100ms ease, color 100ms ease, background 100ms ease;
+}
+.vcs-tab:hover {
+  color: var(--vcs-accent, #D4A017);
+  background: rgba(212, 160, 23, 0.04);
+}
+.vcs-tab[aria-selected="true"] {
+  border-bottom-color: var(--vcs-accent-bright, #FFD700);
+  color: var(--vcs-accent-bright, #FFD700);
+  background: rgba(255, 215, 0, 0.05);
+}
+.vcs-tab:focus-visible {
+  outline: 1px solid var(--vcs-accent, #D4A017);
+  outline-offset: -2px;
+}
+
+/* CRITICAL: flex:1 + min-height:0 makes the active pane fill the remaining   */
+/* height of the .vcs-side-panel (which is display:flex; flex-direction:column)*/
+.vcs-tab-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.vcs-tab-pane[hidden] {
+  display: none !important;
+}
+
+/* ─── VCS extension toolbar (session toolbar row) ──────────────────────── */
+
+.vcs-ext-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 0.8rem 0.35rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg2, #050505);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.vcs-ext-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--vcs-accent-dark, #8C6E10);
+  color: var(--vcs-fg-dim, #999);
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 100ms ease, color 100ms ease, background 100ms ease;
+}
+.vcs-ext-btn:hover {
+  border-color: var(--vcs-accent, #D4A017);
+  color: var(--vcs-accent-bright, #FFD700);
+}
+.vcs-ext-btn:active {
+  background: rgba(212, 160, 23, 0.12);
+}
+
+.vcs-ext-badge-toggle.active {
+  border-color: var(--vcs-accent-bright, #FFD700);
+  color: var(--vcs-accent-bright, #FFD700);
+  background: rgba(212, 160, 23, 0.10);
+}
+
+.vcs-ext-status {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vcs-fg-dim, #999);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vcs-ext-status.ok  { color: var(--vcs-accent, #D4A017); }
+.vcs-ext-status.err { color: var(--vcs-red, #C92A2A); }
+
+/* ─── Operator context section (Planning pane) ───────────────────────────── */
+
+.vcs-ctx-section {
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg, #0d0d0d);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.vcs-ctx-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem 0.25rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg2, #050505);
+  flex-shrink: 0;
+}
+
+.vcs-ctx-title {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--vcs-accent, #D4A017);
+  flex: 1;
+}
+
+.vcs-ctx-clearall {
+  font-size: 0.48rem;
+  padding: 0.12rem 0.4rem;
+}
+
+.vcs-ctx-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 60px;
+}
+
+.vcs-ctx-empty {
+  padding: 0.55rem 0.9rem;
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  color: var(--vcs-fg-dim, #999);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.vcs-ctx-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg, #0d0d0d);
+  transition: background 70ms ease;
+}
+.vcs-ctx-item:last-child { border-bottom: none; }
+.vcs-ctx-item:hover { background: rgba(212, 160, 23, 0.04); }
+
+.vcs-ctx-badge {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.44rem;
+  letter-spacing: 0.14em;
+  padding: 0.05rem 0.3rem;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+.vcs-ctx-badge--todo {
+  background: rgba(212, 160, 23, 0.18);
+  color: var(--vcs-accent, #D4A017);
+  border: 1px solid rgba(212, 160, 23, 0.35);
+}
+.vcs-ctx-badge--decision {
+  background: rgba(201, 42, 42, 0.15);
+  color: var(--vcs-red, #C92A2A);
+  border: 1px solid rgba(201, 42, 42, 0.30);
+}
+
+.vcs-ctx-item-text {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.58rem;
+  color: var(--vcs-fg, #e8e8e8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.vcs-ctx-pending {
+  font-size: 0.55rem;
+  color: var(--vcs-accent-dark, #8C6E10);
+  flex-shrink: 0;
+}
+
+.vcs-ctx-remove {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--vcs-fg-dim, #999);
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.1rem;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 80ms ease, color 80ms ease;
+}
+.vcs-ctx-item:hover .vcs-ctx-remove { opacity: 1; }
+.vcs-ctx-remove:hover { color: var(--vcs-red, #C92A2A); }
+
+.vcs-ctx-capture {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.6rem 0.3rem;
+  border-top: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg2, #050505);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.vcs-ctx-kind-select {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--vcs-accent-dark, #8C6E10);
+  color: var(--vcs-fg-dim, #999);
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.4rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 3.8rem;
+}
+.vcs-ctx-kind-select:focus {
+  outline: none;
+  border-color: var(--vcs-accent, #D4A017);
+}
+
+.vcs-ctx-input {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--vcs-accent-dark, #8C6E10);
+  color: var(--vcs-fg, #e8e8e8);
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.58rem;
+  padding: 0.2rem 0.45rem;
+  transition: border-color 100ms ease;
+  min-height: 0;
+}
+.vcs-ctx-input::placeholder {
+  color: var(--vcs-fg-dim, #999);
+  opacity: 0.5;
+}
+.vcs-ctx-input:focus {
+  outline: none;
+  border-color: var(--vcs-accent, #D4A017);
+}
+
+.vcs-ctx-add {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  line-height: 1;
+}
+
+.vcs-ctx-handoff-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem 0.35rem;
+  background: var(--vcs-bg2, #050505);
+  flex-shrink: 0;
+}
+
+.vcs-ctx-handoff {
+  font-size: 0.5rem;
+  padding: 0.2rem 0.55rem;
+  border-color: var(--vcs-accent, #D4A017);
+  color: var(--vcs-accent, #D4A017);
+  letter-spacing: 0.14em;
+}
+.vcs-ctx-handoff:hover {
+  background: rgba(212, 160, 23, 0.14);
+  color: var(--vcs-accent-bright, #FFD700);
+  border-color: var(--vcs-accent-bright, #FFD700);
+}
+.vcs-ctx-handoff:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Activity pane ─────────────────────────────────────────────────────── */
+
+.vcs-activity-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem 0.25rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg2, #050505);
+  flex-shrink: 0;
+}
+
+.vcs-activity-feed {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vcs-activity-empty {
+  padding: 0.55rem 0.9rem;
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  color: var(--vcs-fg-dim, #999);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.vcs-activity-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.22rem 0.75rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg, #0d0d0d);
+  transition: background 70ms ease;
+}
+.vcs-activity-row:last-child { border-bottom: none; }
+.vcs-activity-row:hover { background: rgba(212, 160, 23, 0.04); }
+
+.vcs-activity-task-id {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.54rem;
+  color: var(--vcs-fg, #e8e8e8);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vcs-activity-sep {
+  font-size: 0.5rem;
+  color: var(--vcs-accent-dark, #8C6E10);
+  flex-shrink: 0;
+}
+
+.vcs-activity-worker-line {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vcs-accent, #D4A017);
+  padding: 0.28rem 0.8rem 0.22rem;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  background: var(--vcs-bg, #0d0d0d);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.vcs-activity-verbosity {
+  font-size: 0.44rem;
+  padding: 0.1rem 0.35rem;
+  color: var(--vcs-accent-dark, #8C6E10);
+  border-color: var(--vcs-accent-dark, #8C6E10);
+  flex-shrink: 0;
+}
+.vcs-activity-verbosity[aria-pressed="true"] {
+  color: var(--vcs-accent, #D4A017);
+  border-color: var(--vcs-accent, #D4A017);
+}
+
+.vcs-activity-dirty {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vcs-red, #C92A2A);
+  padding: 0.2rem 0.8rem;
+  border-bottom: 1px solid rgba(201, 42, 42, 0.2);
+  background: rgba(201, 42, 42, 0.06);
+  flex-shrink: 0;
+}
+
+/* ─── Drawer label + composer hover-recorder + per-item handoff ─────────── */
+
+.vcs-drawer-label {
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.44rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--vcs-accent-dark, #8C6E10);
+  padding: 0.18rem 0.8rem 0;
+  background: var(--vcs-bg2, #050505);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  user-select: none;
+  border-bottom: 1px solid var(--vcs-border, #1f1f1f);
+  flex-shrink: 0;
+}
+
+.vcs-drawer-label::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--vcs-accent, #D4A017);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.vcs-composer-mic {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--vcs-accent-dark, #8C6E10);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.1rem 0.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 100ms ease, color 100ms ease, border-color 100ms ease;
+  border-radius: 2px;
+}
+.vcs-ctx-capture:hover .vcs-composer-mic {
+  opacity: 1;
+}
+.vcs-composer-mic--active {
+  opacity: 1 !important;
+  color: var(--vcs-red, #C92A2A);
+  border-color: rgba(201, 42, 42, 0.45);
+  background: rgba(201, 42, 42, 0.08);
+  animation: vcs-mic-pulse 1.4s ease infinite;
+}
+@keyframes vcs-mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 42, 42, 0.35); }
+  50%       { box-shadow: 0 0 0 4px rgba(201, 42, 42, 0); }
+}
+.vcs-composer-mic:hover:not(.vcs-composer-mic--active) {
+  opacity: 1;
+  color: var(--vcs-accent, #D4A017);
+  border-color: var(--vcs-accent-dark, #8C6E10);
+}
+
+.vcs-ctx-item-handoff {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--vcs-accent-dark, #8C6E10);
+  font-family: var(--vcs-mono, ui-monospace, monospace);
+  font-size: 0.65rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.15rem;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 80ms ease, color 80ms ease, border-color 80ms ease;
+}
+.vcs-ctx-item:hover .vcs-ctx-item-handoff { opacity: 1; }
+.vcs-ctx-item-handoff:hover {
+  color: var(--vcs-accent, #D4A017);
+  border-color: var(--vcs-accent-dark, #8C6E10);
+}
+.vcs-ctx-item-handoff:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Visual pane: make vcs-tag-list fill its flex container ─────────────── */
+/* When .vcs-tag-list is reparented into .vcs-tab-pane by tab-host.ts, it    */
+/* must be told to flex-grow to fill the available space.                      */
+
+.vcs-tab-pane > .vcs-tag-list {
+  flex: 1;
+  min-height: 0;
+}
