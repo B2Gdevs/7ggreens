@@ -31,6 +31,15 @@ const TYPE_MS_PER_CHAR = 18;
  *                                          Defaults to document.body.
  * @param {boolean}  [options.showDevHint]  Render keyboard-hint bar at bottom-left.
  *                                          Default true.
+ * @param {Function} [options.transcribe]   `(clip: Blob) => Promise<string>`. When
+ *                                          provided, the Alt+click "talk about this
+ *                                          tag" flow captures audio from the SELECTED
+ *                                          input device (getUserMedia({deviceId}) +
+ *                                          MediaRecorder) and routes the clip here for
+ *                                          transcription — instead of SpeechRecognition,
+ *                                          which always uses the OS default mic and
+ *                                          ignores the device picker. Omit → falls back
+ *                                          to SpeechRecognition (default mic).
  * @returns {{ dispose: Function, dot: Element, recordings: Function, refreshCids: Function }}
  */
 export default function createVisualContextOverlay(options = {}) {
@@ -40,18 +49,30 @@ export default function createVisualContextOverlay(options = {}) {
     onUpdate = null,
     container = document.body,
     showDevHint = true,
+    transcribe = null,
   } = options;
+
+  // localStorage key the Mic tab (packages/vcs-sheet/src/web-audio-device.ts)
+  // persists the operator's chosen input device under. Read directly (this
+  // overlay is a zero-dep vanilla module and can't import the package helper)
+  // so tag-talk capture uses the SAME device the picker selected.
+  const AUDIO_INPUT_DEVICE_STORAGE_KEY = 'vcs.audioInputDeviceId';
 
   // ─── Internal state ─────────────────────────────────────────────────────
 
   const voice = {
-    rec: null,
-    mode: null,        // 'target' | null
+    rec: null,          // SpeechRecognition instance (fallback path)
+    recorder: null,     // MediaRecorder instance (device-honoring path)
+    stream: null,       // active MediaStream (device-honoring path)
+    chunks: null,       // recorded audio chunks
+    mode: null,         // 'target' | null
     recCid: null,
     transcript: '',
     lastSpeechTs: 0,
     tags: [],
-    supported: !!(window.SpeechRecognition || window.webkitSpeechRecognition),
+    // Supported when we can either transcribe captured audio OR fall back to
+    // the browser recognizer.
+    supported: !!transcribe || !!(window.SpeechRecognition || window.webkitSpeechRecognition),
   };
 
   const animatingTags = new Set();
@@ -189,8 +210,107 @@ export default function createVisualContextOverlay(options = {}) {
 
   function startTargetRecord(cid) {
     if (!voice.supported) return;
-    if (voice.rec) stopRecord();
+    if (voice.mode) stopRecord();
+    // Prefer the device-honoring MediaRecorder path whenever the host injected a
+    // transcriber — it captures from the operator's SELECTED input device.
+    // SpeechRecognition can't target a device (always OS default), so it's only
+    // the fallback when no transcriber is wired.
+    if (transcribe) { startMediaRecord(cid); return; }
+    startRecognitionRecord(cid);
+  }
 
+  // ── Device-honoring capture (getUserMedia({deviceId}) + MediaRecorder) ──────
+
+  /** Pick a MediaRecorder mime the webview actually supports (WebView2 → opus). */
+  function pickRecorderMime() {
+    if (typeof MediaRecorder === 'undefined') return undefined;
+    const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus'];
+    return candidates.find((m) => {
+      try { return MediaRecorder.isTypeSupported(m); } catch { return false; }
+    });
+  }
+
+  /** getUserMedia for a specific device, exact → soft hint → system default. */
+  async function micStreamForSelectedDevice() {
+    let deviceId = null;
+    try { deviceId = localStorage.getItem(AUDIO_INPUT_DEVICE_STORAGE_KEY); } catch {}
+    const md = navigator.mediaDevices;
+    if (!md || !md.getUserMedia) throw new Error('getUserMedia unavailable');
+    if (!deviceId) return md.getUserMedia({ audio: true });
+    try {
+      return await md.getUserMedia({ audio: { deviceId: { exact: deviceId } } });
+    } catch (_e) {
+      try { return await md.getUserMedia({ audio: { deviceId } }); }
+      catch (_e2) { return md.getUserMedia({ audio: true }); }
+    }
+  }
+
+  async function startMediaRecord(cid) {
+    if (typeof MediaRecorder === 'undefined') { startRecognitionRecord(cid); return; }
+    let stream;
+    try {
+      stream = await micStreamForSelectedDevice();
+    } catch (_e) {
+      // No mic access — nothing we can do; leave state clean.
+      return;
+    }
+    // A second Alt+click may have fired while we awaited permission/stream.
+    if (voice.mode) { stream.getTracks().forEach((t) => t.stop()); return; }
+    const mime = pickRecorderMime();
+    let recorder;
+    try {
+      recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+    } catch (_e) {
+      stream.getTracks().forEach((t) => t.stop());
+      startRecognitionRecord(cid);
+      return;
+    }
+    const chunks = [];
+    recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = () => { void finaliseMediaRec(mime); };
+
+    voice.recorder = recorder;
+    voice.stream = stream;
+    voice.chunks = chunks;
+    voice.mode = 'target';
+    voice.recCid = cid;
+    voice.transcript = '';
+    voice.lastSpeechTs = Date.now();
+    setDotState('active'); // capturing from the real device
+    renderTagList();
+    try { recorder.start(); } catch (_e) { cleanupMediaStream(); voice.mode = null; voice.recCid = null; renderTagList(); }
+  }
+
+  function cleanupMediaStream() {
+    if (voice.stream) { try { voice.stream.getTracks().forEach((t) => t.stop()); } catch {} }
+    voice.stream = null;
+    voice.recorder = null;
+  }
+
+  async function finaliseMediaRec(mime) {
+    const cid = voice.recCid;
+    const chunks = voice.chunks || [];
+    cleanupMediaStream();
+    voice.chunks = null;
+    // "Transcribing" — keep the dot lit while STT runs.
+    setDotState('active');
+    renderTagList();
+    let text = '';
+    if (chunks.length) {
+      try {
+        const blob = new Blob(chunks, { type: mime || 'audio/webm' });
+        text = (await transcribe(blob)) || '';
+      } catch (_e) { text = ''; }
+    }
+    voice.transcript = text.trim();
+    voice.recCid = cid;
+    finaliseTagRec();
+  }
+
+  // ── SpeechRecognition fallback (default mic only — no device targeting) ─────
+
+  function startRecognitionRecord(cid) {
+    if (voice.rec) { try { voice.rec.stop(); } catch {} }
     const r = makeRecognizer(
       (t) => {
         voice.transcript = (voice.transcript ? voice.transcript + ' ' : '') + t;
@@ -215,6 +335,12 @@ export default function createVisualContextOverlay(options = {}) {
   }
 
   function stopRecord() {
+    // MediaRecorder path (device-honoring) — onstop → finaliseMediaRec.
+    if (voice.recorder) {
+      try { voice.recorder.stop(); } catch { cleanupMediaStream(); finaliseTagRec(); }
+      return;
+    }
+    // SpeechRecognition path — onend → finaliseTagRec.
     if (voice.rec) {
       try { voice.rec.stop(); } catch {}
     }
@@ -238,6 +364,8 @@ export default function createVisualContextOverlay(options = {}) {
     }
 
     voice.rec = null;
+    cleanupMediaStream();
+    voice.chunks = null;
     voice.mode = null;
     voice.recCid = null;
     voice.transcript = '';
@@ -534,6 +662,10 @@ export default function createVisualContextOverlay(options = {}) {
   function dispose() {
     if (disposed) return;
     disposed = true;
+    // Stop any in-flight capture so the mic device is released.
+    if (voice.recorder) { try { voice.recorder.stop(); } catch {} }
+    if (voice.rec) { try { voice.rec.stop(); } catch {} }
+    cleanupMediaStream();
     clearInterval(dotInterval);
     if (composerStatusTimer) {
       clearTimeout(composerStatusTimer);
