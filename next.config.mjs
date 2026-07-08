@@ -13,6 +13,19 @@ const nextConfig = {
   experimental: {
     externalDir: true,
   },
+  // Turbopack (the default bundler for `next build`/`next dev --turbo` here)
+  // needs its OWN alias map — a `webpack` config alone makes it hard-error
+  // ("using Turbopack, with a webpack config and no turbopack config"). Mirror
+  // the vcs-sheet source aliases so both bundlers resolve the workspace package.
+  // Turbopack resolveAlias needs RELATIVE forward-slash paths (from the app
+  // root) — absolute Windows paths fail with "windows imports are not
+  // implemented yet". Points at the vcs-sheet source (workspace pkg, no dist/).
+  turbopack: {
+    resolveAlias: {
+      "@experience/vcs-sheet/react": "../../packages/vcs-sheet/src/react.tsx",
+      "@experience/vcs-sheet": "../../packages/vcs-sheet/src/index.ts",
+    },
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias ?? {}),
