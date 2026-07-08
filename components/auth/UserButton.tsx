@@ -1,52 +1,31 @@
 "use client";
 
 /**
- * UserButton — shows Clerk UserButton when configured, else nothing.
+ * UserButton — header auth control. Shows our shared custom user menu when
+ * Clerk is configured + the visitor is signed in, a "Sign in" link when signed
+ * out, and nothing at all when Clerk is not configured.
+ *
+ * Uses @gad/auth-surface <CustomUserMenu/> (headless @clerk/nextjs) — NO Clerk
+ * <UserButton/> drop-in. Themed to the 7G Greens green brand via `.auth-7g-theme`.
+ * The old dynamic/require() indirection existed only to lazy-load Clerk's UI
+ * component; CustomUserMenu is a normal client import, so it's gone.
  *
  * Graceful degradation: when NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is absent,
- * this renders null. The store still works without auth.
- *
- * When Clerk IS configured:
- *   - Signed-out: shows a "Sign in" link
- *   - Signed-in: shows the Clerk UserButton avatar/dropdown
+ * ClerkProvider is not mounted (see ClerkProviderWrapper) and this renders null.
+ * The store still works without auth.
  *
  * VCS cid: site.header.user-button
  *
- * Task: UPAEC-T-272-06
+ * Task: GLOBAL-T-413-07
  */
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { User } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { CustomUserMenu } from "@gad/auth-surface/custom-user-menu-next";
 import { cid } from "@/lib/vcs/cid";
 
-// Only attempt to import Clerk when the publishable key is present
-const CLERK_CONFIGURED = Boolean(
-  typeof process !== "undefined" &&
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-);
-
-// Module-level cache of Clerk components (populated once on first mount)
-type ClerkComponents = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  UserButton: React.ComponentType<any>;
-  useUser: () => { isSignedIn?: boolean; isLoaded?: boolean };
-} | null;
-
-let clerkCache: ClerkComponents = null;
-
-function loadClerk(): ClerkComponents {
-  if (!CLERK_CONFIGURED) return null;
-  if (clerkCache) return clerkCache;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const clerk = require("@clerk/nextjs");
-    clerkCache = { UserButton: clerk.UserButton, useUser: clerk.useUser };
-    return clerkCache;
-  } catch {
-    return null;
-  }
-}
+const CLERK_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
 function SignedOutButton() {
   return (
@@ -62,42 +41,31 @@ function SignedOutButton() {
   );
 }
 
-function ClerkAwareButton({ components }: { components: NonNullable<ClerkComponents> }) {
-  const { isSignedIn, isLoaded } = components.useUser();
+/** Renders only when ClerkProvider is mounted (CLERK_CONFIGURED). Reads the
+ *  Clerk session and shows the custom menu (signed in) or the sign-in link. */
+function ClerkAwareButton() {
+  const { isSignedIn, isLoaded } = useUser();
 
+  // Avoid a hydration flash before Clerk resolves the session.
   if (!isLoaded) return null;
 
   if (!isSignedIn) {
     return <SignedOutButton />;
   }
 
-  const CUserButton = components.UserButton;
   return (
     <div
       data-cid={cid("site.header.user-button")}
-      className="hidden md:flex items-center"
+      className="auth-7g-theme hidden md:flex items-center"
     >
-      <CUserButton afterSignOutUrl="/" />
+      <CustomUserMenu afterSignOutUrl="/" cidPrefix="7g.user-menu" />
     </div>
   );
 }
 
 export function UserButton() {
-  const [mounted, setMounted] = useState(false);
-  const [clerk, setClerk] = useState<ClerkComponents>(null);
+  // Clerk not configured — render nothing (hooks below never run).
+  if (!CLERK_CONFIGURED) return null;
 
-  useEffect(() => {
-    setMounted(true);
-    setClerk(loadClerk());
-  }, []);
-
-  // Not mounted yet — avoid hydration mismatch
-  if (!mounted) return null;
-
-  // Clerk not configured — render nothing
-  if (!CLERK_CONFIGURED || !clerk) {
-    return null;
-  }
-
-  return <ClerkAwareButton components={clerk} />;
+  return <ClerkAwareButton />;
 }

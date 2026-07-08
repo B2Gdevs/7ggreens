@@ -1,8 +1,10 @@
 /**
  * /account — customer account page (Clerk-gated).
  *
- * Shows the signed-in customer's profile via Clerk <UserProfile />.
- * Links to /orders for order history.
+ * Shows the signed-in customer's profile via our shared custom account panel
+ * (@gad/auth-surface <CustomUserProfile/>, headless @clerk/nextjs useUser) — NO
+ * Clerk <UserProfile/> drop-in. Themed to the 7G Greens green brand via the
+ * `.auth-7g-theme` wrapper. Links to /orders for order history.
  *
  * Graceful degradation:
  *   - Clerk not configured → friendly notice with store link.
@@ -11,17 +13,18 @@
  *
  * VCS cids:
  *   account.page            — page root
- *   account.page.profile    — Clerk UserProfile embed
+ *   account.page.profile    — custom account panel embed
  *   account.page.orders-link — link to /orders
  *
  * Design: Heritage Modern — matches site palette (cream/charcoal/sage).
  *
- * Task: UPAEC-T-272-12
+ * Task: GLOBAL-T-413-07
  */
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import { User, PackageOpen, LogIn } from "lucide-react";
+import { CustomUserProfile } from "@gad/auth-surface/custom-user-profile-next";
 import { cid } from "@/lib/vcs/cid";
 
 export const metadata: Metadata = {
@@ -34,21 +37,9 @@ export const dynamic = "force-dynamic";
 
 const CLERK_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
-async function getUserProfileComponent() {
-  if (!CLERK_CONFIGURED) return null;
-  try {
-    const { UserProfile } = await import("@clerk/nextjs");
-    return UserProfile;
-  } catch {
-    return null;
-  }
-}
-
-export default async function AccountPage() {
-  const UserProfile = await getUserProfileComponent();
-
+export default function AccountPage() {
   // Clerk not configured — graceful prompt
-  if (!UserProfile) {
+  if (!CLERK_CONFIGURED) {
     return (
       <div
         data-cid={cid("account.page")}
@@ -87,7 +78,7 @@ export default async function AccountPage() {
   }
 
   // Clerk configured — middleware already verified session.
-  // UserProfile handles the rest.
+  // CustomUserProfile (client, headless Clerk) renders the account panel.
   return (
     <div
       data-cid={cid("account.page")}
@@ -130,31 +121,9 @@ export default async function AccountPage() {
         </Link>
       </div>
 
-      {/* Clerk UserProfile embed */}
-      <div data-cid={cid("account.page.profile")}>
-        <UserProfile
-          appearance={{
-            elements: {
-              rootBox: "w-full",
-              card: [
-                "shadow-none",
-                "border border-[var(--color-border)]",
-                "rounded-[28px]",
-                "bg-[var(--color-cream)]",
-                "w-full",
-              ].join(" "),
-              navbar: "border-r border-[var(--color-border)]",
-              navbarButton:
-                "text-[var(--color-charcoal-soft)] hover:text-[var(--color-sage-deep)] hover:bg-[var(--color-cream-soft)]",
-              navbarButtonIcon: "text-[var(--color-sage-deep)]",
-              headerTitle: "font-display text-2xl text-[var(--color-charcoal)]",
-              headerSubtitle: "text-[var(--color-charcoal-muted)]",
-              formButtonPrimary:
-                "bg-[var(--color-sage-deep)] hover:bg-[var(--color-sage)] text-[var(--color-cream)] rounded-xl",
-              badge: "bg-[var(--color-sage-deep)]/10 text-[var(--color-sage-deep)]",
-            },
-          }}
-        />
+      {/* Custom account panel — headless Clerk, 7G green theme */}
+      <div data-cid={cid("account.page.profile")} className="auth-7g-theme">
+        <CustomUserProfile cidPrefix="7g.account.profile" />
       </div>
 
       {/* Sign in hint — shown when Clerk configured but user somehow lands here unauthenticated */}

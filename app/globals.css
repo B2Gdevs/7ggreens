@@ -249,6 +249,26 @@ body {
   outline: none;
 }
 
+/* ─────────────────────────────────────────────────────────
+   Shared auth surface theming — maps @gad/auth-surface's --auth-*
+   CSS vars onto 7G Greens' Heritage Modern palette. GREEN brand
+   accent (sage), NOT gold. Cream surfaces / charcoal text.
+   Wrap any <CustomSignIn>/<CustomUserMenu>/<CustomUserProfile>
+   region in `.auth-7g-theme` so these vars cascade into the
+   package's inline-styled internals. Task GLOBAL-T-413-07.
+   ───────────────────────────────────────────────────────── */
+.auth-7g-theme {
+  --auth-accent: var(--color-sage-deep);
+  --auth-accent-ring: rgba(63, 88, 40, 0.35);
+  --auth-border: rgba(63, 88, 40, 0.22);
+  --auth-border-hover: rgba(63, 88, 40, 0.5);
+  --auth-field-bg: var(--color-cream);
+  --auth-menu-bg: var(--color-cream-soft);
+  --auth-text: var(--color-charcoal);
+  --auth-text-muted: color-mix(in srgb, var(--color-charcoal) 60%, transparent);
+  --auth-font: var(--font-sans);
+}
+
 /* VCS dev marker (only visible in dev mode via [data-vcs="on"] on root) */
 [data-vcs="on"] [data-cid] {
   outline: 1px dashed rgba(92, 122, 61, 0.35);

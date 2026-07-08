@@ -1,16 +1,22 @@
 /**
- * /sign-in — Clerk sign-in page.
+ * /sign-in — sign-in page.
  *
- * Rendered only when NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set.
- * When Clerk is absent, this page shows a friendly "Auth not configured" notice
- * so the build always succeeds.
+ * Uses our shared, fully-custom sign-in form (@gad/auth-surface) driven by
+ * headless Clerk (@clerk/nextjs useSignIn/useSignUp) — NO Clerk <SignIn> drop-in,
+ * no "Secured by Clerk" chrome. Themed to the 7G Greens green brand via the
+ * `.auth-7g-theme` wrapper (maps --auth-* vars in globals.css).
  *
- * VCS cid: auth.sign-in
+ * Rendered only when NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set (ClerkProvider is
+ * mounted by ClerkProviderWrapper). When Clerk is absent, this page shows a
+ * friendly "Auth not configured" notice so the build always succeeds.
  *
- * Task: UPAEC-T-272-06
+ * VCS cids: auth.sign-in (root) · auth.sign-in.form (custom form)
+ *
+ * Task: GLOBAL-T-413-07
  */
 
 import type { Metadata } from "next";
+import { CustomSignIn } from "@gad/auth-surface/custom-signin-next";
 import { cid } from "@/lib/vcs/cid";
 
 export const metadata: Metadata = {
@@ -20,39 +26,19 @@ export const metadata: Metadata = {
 
 const CLERK_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
-// Conditionally import SignIn component
-async function getSignInComponent() {
-  if (!CLERK_CONFIGURED) return null;
-  try {
-    const { SignIn } = await import("@clerk/nextjs");
-    return SignIn;
-  } catch {
-    return null;
-  }
-}
-
-export default async function SignInPage() {
-  const SignIn = await getSignInComponent();
-
+export default function SignInPage() {
   return (
     <div
       data-cid={cid("auth.sign-in")}
       className="flex min-h-[60vh] items-center justify-center px-[var(--section-px)] py-[var(--section-py)]"
     >
-      {SignIn ? (
-        <SignIn
-          appearance={{
-            elements: {
-              rootBox: "mx-auto",
-              card: "shadow-none border border-[var(--color-border)] rounded-[28px] bg-[var(--color-cream)]",
-              headerTitle: "font-display text-2xl text-[var(--color-charcoal)]",
-              headerSubtitle: "text-[var(--color-charcoal-muted)]",
-              formButtonPrimary:
-                "bg-[var(--color-sage-deep)] hover:bg-[var(--color-sage)] text-[var(--color-cream)] rounded-xl",
-              footerActionLink: "text-[var(--color-sage-deep)] hover:text-[var(--color-sage)]",
-            },
-          }}
-        />
+      {CLERK_CONFIGURED ? (
+        <div
+          data-cid={cid("auth.sign-in.form")}
+          className="auth-7g-theme mx-auto w-full max-w-sm"
+        >
+          <CustomSignIn cidPrefix="7g.auth.sign-in" />
+        </div>
       ) : (
         <div className="mx-auto max-w-sm rounded-[28px] border border-[var(--color-border)] bg-[var(--color-cream)] p-10 text-center">
           <p className="font-display text-xl text-[var(--color-charcoal)]">

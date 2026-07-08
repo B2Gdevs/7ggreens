@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.3.7",
+    "@gad/auth-surface": "workspace:*",
     "@supabase/supabase-js": "^2.106.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",

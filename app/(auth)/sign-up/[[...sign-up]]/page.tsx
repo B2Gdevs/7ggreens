@@ -1,15 +1,20 @@
 /**
- * /sign-up — Clerk sign-up page.
+ * /sign-up — sign-up page.
  *
- * Rendered only when NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set.
- * When Clerk is absent, this page shows a friendly "Auth not configured" notice.
+ * Uses our shared custom sign-in form in signup mode (@gad/auth-surface) driven
+ * by headless Clerk (@clerk/nextjs) — NO Clerk <SignUp> drop-in. Themed to the
+ * 7G Greens green brand via the `.auth-7g-theme` wrapper.
  *
- * VCS cid: auth.sign-up
+ * Rendered only when NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set. When Clerk is
+ * absent, this page shows a friendly "Auth not configured" notice.
  *
- * Task: UPAEC-T-272-06
+ * VCS cids: auth.sign-up (root) · auth.sign-up.form (custom form)
+ *
+ * Task: GLOBAL-T-413-07
  */
 
 import type { Metadata } from "next";
+import { CustomSignIn } from "@gad/auth-surface/custom-signin-next";
 import { cid } from "@/lib/vcs/cid";
 
 export const metadata: Metadata = {
@@ -19,38 +24,19 @@ export const metadata: Metadata = {
 
 const CLERK_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
-async function getSignUpComponent() {
-  if (!CLERK_CONFIGURED) return null;
-  try {
-    const { SignUp } = await import("@clerk/nextjs");
-    return SignUp;
-  } catch {
-    return null;
-  }
-}
-
-export default async function SignUpPage() {
-  const SignUp = await getSignUpComponent();
-
+export default function SignUpPage() {
   return (
     <div
       data-cid={cid("auth.sign-up")}
       className="flex min-h-[60vh] items-center justify-center px-[var(--section-px)] py-[var(--section-py)]"
     >
-      {SignUp ? (
-        <SignUp
-          appearance={{
-            elements: {
-              rootBox: "mx-auto",
-              card: "shadow-none border border-[var(--color-border)] rounded-[28px] bg-[var(--color-cream)]",
-              headerTitle: "font-display text-2xl text-[var(--color-charcoal)]",
-              headerSubtitle: "text-[var(--color-charcoal-muted)]",
-              formButtonPrimary:
-                "bg-[var(--color-sage-deep)] hover:bg-[var(--color-sage)] text-[var(--color-cream)] rounded-xl",
-              footerActionLink: "text-[var(--color-sage-deep)] hover:text-[var(--color-sage)]",
-            },
-          }}
-        />
+      {CLERK_CONFIGURED ? (
+        <div
+          data-cid={cid("auth.sign-up.form")}
+          className="auth-7g-theme mx-auto w-full max-w-sm"
+        >
+          <CustomSignIn mode="signup" cidPrefix="7g.auth.sign-up" />
+        </div>
       ) : (
         <div className="mx-auto max-w-sm rounded-[28px] border border-[var(--color-border)] bg-[var(--color-cream)] p-10 text-center">
           <p className="font-display text-xl text-[var(--color-charcoal)]">
